@@ -35,7 +35,7 @@
 </head>
 <body class="font-yaldevi box-border h-full">
     <nav id="navbar"
-        class="flex justify-around items-end w-full h-16 box-border py-2 sticky top-0 bg-main-yellow font-semibold">
+        class="flex justify-around items-end w-full h-16 box-border py-2 sticky top-0 z-10 bg-main-yellow font-semibold">
         <a href="{{ route('home') }}"
             class="flex flex-col justify-between h-full box-border items-center">
             <img src="{{ asset('img/calzado-amaya-color.svg') }}" alt="Calzado Amaya" class="w-10 h-auto">
@@ -47,7 +47,6 @@
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('categorias') }}">Categorías</a>
             <a href="{{ route('productos') }}">Productos</a>
-            <a href="{{ route('categorias') }}">Categorías</a>
             <a href="{{ route('promo') }}">Promociones</a>
             <a href="">Sobre Nosotros</a>
             <a href="">Contacto</a>
@@ -55,8 +54,8 @@
 
         <div
             class="hidden md:flex justify-between box-border space-x-4 items-end">
-            <form action="#" method="GET">
-                <input type="text" name="search" placeholder="Buscar" class="rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-main-yellow">
+            <form action="/categorias/" method="GET" class="flex items-end justify-between gap-2">
+                <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-gray-400 px-4 py-2 w-10 focus:w-24 transition-all duration-300 outline-none focus:ring-2 focus:ring-main-yellow">
                 <button type="submit">
                     <i class="fas fa-search"></i>
                 </button>
@@ -90,11 +89,11 @@
             @endif
         </div>
     </nav>
-    <main id="content" class="w-full p-4">
+    <main id="content" class="w-full">
         @yield('content')
     </main>
-    <footer class="bg-gray-200 py-8 px-4">
-        <div class="max-w-6xl mx-auto flex flex-wrap justify-between">
+    <footer class="bg-gray-200">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between py-24 px-4">
             <div class="w-full md:w-1/2 mb-4 md:mb-0 md:px-4">
                 <h2 class="text-4xl font-semibold mb-2">Suscríbete a nuestro boletín</h2>
                 <p class="mb-4">Recibe las últimas noticias y ofertas especiales directamente en tu bandeja de entrada.</p>
@@ -105,13 +104,13 @@
             </div>
 
             <div class="w-full md:w-1/2">
-                <div class="flex justify-between">
+                <div class="flex justify-evenly">
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Categorías</h3>
                         <ul>
-                            <!-- <li><a href="#">Zapatos de Mujer</a></li>
-                            <li><a href="#">Zapatos de Hombre</a></li>
-                            <li><a href="#">Zapatos para Niños</a></li> -->
+                            @foreach($categorias as $categoria)
+                                <li><a href="#">{{ $categoria->nombre }}</a></li>
+                            @endforeach
                         </ul>
                     </div>
                     <div>
@@ -125,12 +124,15 @@
 
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Contacto</h3>
-                        <a href="#"><i class="fa-brands fa-instagram"></i></a> 
-                        <a href="#"><i class="fa-brands fa-facebook"></i></a> 
-                        <a href="#"><i class="fa-regular fa-envelope"></i></a> 
+                        <a href="#" class="text-black hover:text-main-orange font-lg"><i class="fa-brands fa-instagram"></i></a> 
+                        <a href="#" class="text-black hover:text-main-orange font-lg"><i class="fa-brands fa-facebook"></i></a> 
+                        <a href="#" class="text-black hover:text-main-orange font-lg"><i class="fa-regular fa-envelope"></i></a> 
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="bg-black text-white font-semibold uppercase p-2 text-center">
+            todos los derechos reserevados. calzado amaya © 2024
         </div>
     </footer>
 

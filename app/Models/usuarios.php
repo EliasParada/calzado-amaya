@@ -23,4 +23,9 @@ class usuarios extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function administrador()
+    {
+        return $this->hasOne(administradores::class, 'usuario_id');
+    }
 }

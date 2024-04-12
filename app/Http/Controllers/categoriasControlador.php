@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\categorias;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class categoriasControlador extends Controller
 {
@@ -12,8 +13,11 @@ class categoriasControlador extends Controller
      */
     public function index()
     {
-        $categorias = categorias::all();
-        return view('admin.categorias', compact('categorias'));
+        if (Auth::user()->administrador) {
+            return view('admin.categorias');
+        }
+
+        return view('build.categorias');
     }
 
     /**

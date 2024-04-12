@@ -131,6 +131,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class usuarios extends Authenticatable
 ```
 
+ 3. El campo de contraseña debe ser siempre `password`.
+
+ 4. En el archivo `config/session.php` debemos configurar que modelo servira de principal.
+
+```php
+'driver' => env('SESSION_DRIVER', 'cookie'),
+```
+
+4. Registrar `categorias` como proveedor y poder usarlo como un recurso compartido por medio de `AppServiceProvider`
+
+```php
+public function boot(): void
+{
+    View::share('categorias', categorias::all());
+}
+```
+
 ## Lisensia
 
 Proyeto basado en Laravel, [Licensia MIT](https://opensource.org/licenses/MIT).
