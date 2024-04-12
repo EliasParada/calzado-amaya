@@ -30,9 +30,9 @@ A continuación se presenta el esquema de las tablas:
 ```sql
 CREATE TABLE usuarios (
     usuario_id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    nombre CHAR(100) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
-    correo CHAR(100) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
-    contrasena CHAR(100) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+    nombre CHAR(100) NOT NULL,
+    correo CHAR(100) NOT NULL,
+    contrasena CHAR(100) NOT NULL,
     PRIMARY KEY (usuario_id)
 );
 
