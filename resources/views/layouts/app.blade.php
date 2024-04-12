@@ -43,8 +43,10 @@
         </a>
 
         <div
-            class="flex justify-between box-border space-x-4">
+            class="hidden md:flex justify-between box-border space-x-4">
             <a href="{{ route('home') }}">Inicio</a>
+            <a href="{{ route('categorias') }}">Categorías</a>
+            <a href="{{ route('productos') }}">Productos</a>
             <a href="{{ route('categorias') }}">Categorías</a>
             <a href="{{ route('promo') }}">Promociones</a>
             <a href="">Sobre Nosotros</a>
@@ -52,7 +54,7 @@
         </div>
 
         <div
-            class="flex justify-between box-border space-x-4 items-end">
+            class="hidden md:flex justify-between box-border space-x-4 items-end">
             <form action="#" method="GET">
                 <input type="text" name="search" placeholder="Buscar" class="rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-main-yellow">
                 <button type="submit">
@@ -65,7 +67,7 @@
             <span>Iniciar Sesión</span>
         </div>
     </nav>
-    <main id="content" class="w-full">
+    <main id="content" class="w-full p-4">
         @yield('content')
     </main>
     <footer class="bg-gray-200 py-8 px-4">
@@ -74,7 +76,7 @@
                 <h2 class="text-4xl font-semibold mb-2">Suscríbete a nuestro boletín</h2>
                 <p class="mb-4">Recibe las últimas noticias y ofertas especiales directamente en tu bandeja de entrada.</p>
                 <form action="#" method="POST" class="flex">
-                    <input type="email" name="email" placeholder="Tu correo electrónico" class="w-full rounded-l-md px-4 py-2 outline-none focus:ring-2 focus:ring-main-yellow">
+                    <input type="email" name="email" autocomplete="email" placeholder="Tu correo electrónico" class="w-full rounded-l-md px-4 py-2 outline-none focus:ring-2 focus:ring-main-yellow">
                     <button type="submit" class="bg-main-yellow text-white px-4 py-2 rounded-r-md">Suscribirse</button>
                 </form>
             </div>

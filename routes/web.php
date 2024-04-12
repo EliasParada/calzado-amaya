@@ -35,8 +35,11 @@ Route::get('carrito', function () {
 
 Route::get('categorias', [App\Http\Controllers\categoriasControlador::class, 'index'])->name('categorias');
 Route::post('categorias', [App\Http\Controllers\categoriasControlador::class, 'store'])->name('categorias.store');
-Route::put('categorias', [App\Http\Controllers\categoriasControlador::class, 'update'])->name('categorias.edit');
+Route::post('categorias/{categoria_id}', [App\Http\Controllers\categoriasControlador::class, 'update'])->name('categorias.update');
+Route::delete('categorias/{categoria_id}', [App\Http\Controllers\categoriasControlador::class, 'destroy'])->name('categorias.destroy');
 
-Route::get('productos', function () {
-    return view('admin/productos');
-})->name('productos');
+
+Route::get('productos', [App\Http\Controllers\productosControlador::class, 'index'])->name('productos');
+Route::post('productos', [App\Http\Controllers\productosControlador::class, 'store'])->name('productos.store');
+Route::post('productos/{producto_id}', [App\Http\Controllers\productosControlador::class, 'update'])->name('productos.update');
+Route::delete('productos/{producto_id}', [App\Http\Controllers\productosControlador::class, 'destroy'])->name('productos.destroy');

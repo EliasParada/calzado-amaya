@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Editor</title>
+    <!-- Incluye Cropper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <img id="image" src="" alt="Image">
+        <button id="crop-button">Crop</button>
+    </div>
+
+    <script>
+        // Función para recibir la URL de la imagen seleccionada
+        function receiveImage(imageUrl) {
+            const image = document.getElementById('image');
+            image.src = imageUrl;
+        }
+
+        // Función para inicializar Cropper.js con la imagen especificada
+        function initCropper() {
+            const image = document.getElementById('image');
+            const cropper = new Cropper(image, {
+                aspectRatio: 16 / 9,
+                viewMode: 2,
+                autoCropArea: 1,
+                crop(event) {
+                    // Cuando se recorta la imagen, podemos obtener los datos recortados aquí
+                    console.log(event.detail.x);
+                    console.log(event.detail.y);
+                    console.log(event.detail.width);
+                    console.log(event.detail.height);
+                    console.log(event.detail.rotate);
+                    console.log(event.detail.scaleX);
+                    console.log(event.detail.scaleY);
+                },
+            });
+
+            const cropButton = document.getElementById('crop-button');
+            cropButton.addEventListener('click', function() {
+                // Al hacer clic en el botón de recorte, obtenemos los datos recortados y los enviamos al servidor, o los guardamos localmente, etc.
+                const croppedImageData = cropper.getCroppedCanvas().toDataURL();
+                console.log(croppedImageData);
+            });
+        }
+
+        // Inicializar Cropper.js cuando se carga la página
+        window.onload = initCropper;
+    </script>
+</body>
+</html>

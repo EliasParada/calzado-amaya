@@ -48,8 +48,7 @@ class categoriasControlador extends Controller
      */
     public function edit(categorias $categorias)
     {
-        $categoria = categorias::find($id);
-        return view('admin.categorias', compact('categoria'));
+        // 
     }
 
     /**
@@ -57,7 +56,7 @@ class categoriasControlador extends Controller
      */
     public function update(Request $request, categorias $categorias)
     {
-        $categoria = categorias::find($id);
+        $categoria = categorias::find($request->categoria_id);
         $categoria->nombre = $request->nombre;
         $categoria->save();
         return redirect()->route('categorias')->with('success', 'Categoría actualizada correctamente.');
@@ -66,9 +65,9 @@ class categoriasControlador extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(categorias $categorias)
+    public function destroy(categorias $categorias, $categoria_id)
     {
-        $categoria = categorias::find($id);
+        $categoria = categorias::find($categoria_id);
         $categoria->delete();
         return redirect()->route('categorias')->with('success', 'Categoría eliminada correctamente.');
     }
