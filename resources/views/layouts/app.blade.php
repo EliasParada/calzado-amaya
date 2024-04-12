@@ -64,7 +64,30 @@
             <a href="#">
                 <i class="fas fa-shopping-bag"></i>
             </a>
-            <span>Iniciar Sesión</span>
+            @if(Auth::check())
+                <div class="relative">
+                    <button class="account-btn focus:outline-none">
+                        <i class="fas fa-user"></i> Cuenta
+                    </button>
+                    <ul class="account-menu absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg overflow-hidden hidden">
+                        <li>
+                            <a href="" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                {{ Auth::user()->nombre }}
+                            </a>
+                        </li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="block">
+                                @csrf
+                                <button type="submit" class="w-full h-full px-4 py-2 text-red-600 hover:text-red-800 hover:bg-gray-200 focus:outline-none">
+                                    Cerrar Sesión
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <a href="{{ route('login') }}">Iniciar Sesión</a>
+            @endif
         </div>
     </nav>
     <main id="content" class="w-full p-4">
@@ -112,5 +135,27 @@
     </footer>
 
     @yield('script')
+    @if(Auth::check())
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const accountButton = document.querySelector(".account-btn");
+                const accountMenu = document.querySelector(".account-menu");
+
+                accountButton.addEventListener("click", function() {
+                    accountMenu.classList.toggle("hidden");
+                });
+
+                document.addEventListener("click", function(event) {
+                if (!event.target.closest(".account-btn")) {
+                    accountMenu.classList.add("hidden");
+                }
+            });
+                
+                accountMenu.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                });
+            });
+        </script>
+    @endif
 </body>
 </html>

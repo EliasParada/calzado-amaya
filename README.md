@@ -110,6 +110,27 @@ composer create-project --prefer-dist laravel/laravel calzado-amaya
 php artisan key:generate
 ```
 
+3. Para quen el registro funcione debe configurarse de la siguiente manera:
+
+ 1. En el archivo `config/auth.php` debemos configurar que modelo servira de principal.
+
+```php
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\usuarios::class,
+    ],
+],
+```
+
+ 2. En el model se importa la libreria User como Authenticatable y la clase sera una extension de dicha librería.
+
+```php
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class usuarios extends Authenticatable
+```
+
 ## Lisensia
 
 Proyeto basado en Laravel, [Licensia MIT](https://opensource.org/licenses/MIT).

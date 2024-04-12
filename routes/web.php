@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('admin/index');
-// })->name('home');
-
 Route::get('/', [App\Http\Controllers\inicioControlador::class, 'index'])->name('home');
+
+Route::get('login', [App\Http\Controllers\Auth\loginControlador::class, 'index'])->name('login');
+Route::get('register', [App\Http\Controllers\Auth\registerControlador::class, 'index'])->name('register');
+Route::post('login', [App\Http\Controllers\Auth\loginControlador::class, 'login'])->name('login.new');
+Route::post('register', [App\Http\Controllers\Auth\registerControlador::class, 'register'])->name('register.new');
+Route::post('logout', [App\Http\Controllers\Auth\logoutControlador::class, 'logout'])->name('logout');
 
 Route::get('promociones', function () {
     return view('build/promo');
@@ -30,10 +32,6 @@ Route::get('producto/{id}', function () {
 Route::get('carrito', function () {
     return view('build/carrito');
 })->name('carrito');
-
-// Route::get('categorias', function () {
-//     return view('build/categorias');
-// })->name('categorias');
 
 Route::get('categorias', [App\Http\Controllers\categoriasControlador::class, 'index'])->name('categorias');
 Route::post('categorias', [App\Http\Controllers\categoriasControlador::class, 'store'])->name('categorias.store');

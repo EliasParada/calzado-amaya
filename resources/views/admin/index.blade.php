@@ -6,4 +6,5 @@
 
 @section('content')
     Index Admin
+    {{ Auth::user()->nombre }}
 @endsection
