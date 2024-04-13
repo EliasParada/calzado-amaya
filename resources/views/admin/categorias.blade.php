@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+<div class="p-4">
     <h1 class="text-2xl font-semibold mb-4">Administrar Categorías</h1>
 
     <button type="button" class="bg-white text-black border border-black hover:bg-gray-200 font-bold py-2 px-4 rounded mb-4" id="toggleCrearCategoriaModal" data-bs-toggle-modal="#crearCategoriaModal">Crear Categoría</button>
@@ -62,6 +63,8 @@
         </tbody>
     </table>
 </div>
+    
+    </div>
 
 <x-modal id="crearCategoriaModal" title="Crear Categoría">
     <form action="{{ route('categorias.store') }}" method="POST">

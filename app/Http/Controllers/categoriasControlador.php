@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\categorias;
+use App\Models\productos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +14,13 @@ class categoriasControlador extends Controller
      */
     public function index()
     {
-        if (Auth::user()->administrador) {
+        if (Auth::check() && Auth::user()->administrador) {
             return view('admin.categorias');
         }
 
-        return view('build.categorias');
+        $productos = productos::paginate(2);
+        
+        return view('build.categorias', compact('productos'));
     }
 
     /**
@@ -25,7 +28,7 @@ class categoriasControlador extends Controller
      */
     public function create()
     {
-        return view('admin.categorias');
+        // return view('admin.categorias');
     }
 
     /**

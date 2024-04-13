@@ -11,7 +11,7 @@ class inicioControlador extends Controller
     public function index()
     {
         $categorias = categorias::all();
-        if (Auth::user()->administrador) {
+        if (Auth::check() && Auth::user()->administrador) {
             return view('admin.index', compact('categorias'));
         }
 

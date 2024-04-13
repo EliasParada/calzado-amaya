@@ -46,7 +46,6 @@
             class="hidden md:flex justify-between box-border space-x-4">
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('categorias') }}">Categorías</a>
-            <a href="{{ route('productos') }}">Productos</a>
             <a href="{{ route('promo') }}">Promociones</a>
             <a href="">Sobre Nosotros</a>
             <a href="">Contacto</a>
@@ -55,7 +54,7 @@
         <div
             class="hidden md:flex justify-between box-border space-x-4 items-end">
             <form action="/categorias/" method="GET" class="flex items-end justify-between gap-2">
-                <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-gray-400 px-4 py-2 w-10 focus:w-24 transition-all duration-300 outline-none focus:ring-2 focus:ring-main-yellow">
+                <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-white placeholder-gray-300 px-4 py-2 w-10 focus:w-24 transition-all duration-300 outline-none">
                 <button type="submit">
                     <i class="fas fa-search"></i>
                 </button>
