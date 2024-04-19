@@ -45,7 +45,7 @@
         <div
             class="hidden md:flex justify-between box-border space-x-4">
             <a href="{{ route('home') }}">Inicio</a>
-            <a href="{{ route('categorias') }}">Categorías</a>
+            <a href="{{ route('categorias') }}">Catalogo</a>
             <a href="{{ route('promo') }}">Promociones</a>
             <a href="">Sobre Nosotros</a>
             <a href="">Contacto</a>
@@ -54,12 +54,12 @@
         <div
             class="hidden md:flex justify-between box-border space-x-4 items-end">
             <form action="/categorias/" method="GET" class="flex items-end justify-between gap-2">
-                <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-white placeholder-gray-300 px-4 py-2 w-10 focus:w-24 transition-all duration-300 outline-none">
+                <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-gray-600 placeholder-gray-600 px-4 py-2 w-24 outline-none">
                 <button type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <a href="#">
+            <a href="/carrito/">
                 <i class="fas fa-shopping-bag"></i>
             </a>
             @if(Auth::check())
@@ -67,7 +67,7 @@
                     <button class="account-btn focus:outline-none">
                         <i class="fas fa-user"></i> Cuenta
                     </button>
-                    <ul class="account-menu absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg overflow-hidden hidden">
+                    <ul class="account-menu absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg overflow-hidden hidden">
                         <li>
                             <a href="" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">
                                 {{ Auth::user()->nombre }}

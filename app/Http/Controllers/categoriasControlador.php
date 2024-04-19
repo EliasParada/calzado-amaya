@@ -12,13 +12,18 @@ class categoriasControlador extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Auth::check() && Auth::user()->administrador) {
             return view('admin.categorias');
         }
 
-        $productos = productos::paginate(2);
+        if ($request->has('search')) {
+            $productos = productos::where('nombre', 'like', '%' . $request->search . '%')
+                ->paginate(10);
+        } else {
+            $productos = productos::paginate(10);
+        }
         
         return view('build.categorias', compact('productos'));
     }

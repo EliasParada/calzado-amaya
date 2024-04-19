@@ -25,13 +25,10 @@ Route::get('promociones', function () {
     return view('build/promo');
 })->name('promo');
 
-Route::get('producto/{id}', function () {
-    return view('build/producto');
-})->name('producto');
-
-Route::get('carrito', function () {
-    return view('build/carrito');
-})->name('carrito');
+Route::get('carrito', [App\Http\Controllers\carritoControlador::class, 'index'])->name('carrito');
+Route::post('carrito', [App\Http\Controllers\carritoControlador::class, 'store'])->name('carrito.store');
+Route::post('carrito/vaciar', [App\Http\Controllers\carritoControlador::class, 'destroy'])->name('carrito.vaciar');
+Route::post('carrito/{producto_id}', [App\Http\Controllers\carritoControlador::class, 'update'])->name('carrito.eliminar');
 
 Route::get('categorias', [App\Http\Controllers\categoriasControlador::class, 'index'])->name('categorias');
 Route::post('categorias', [App\Http\Controllers\categoriasControlador::class, 'store'])->name('categorias.store');
@@ -39,6 +36,7 @@ Route::post('categorias/{categoria_id}', [App\Http\Controllers\categoriasControl
 Route::delete('categorias/{categoria_id}', [App\Http\Controllers\categoriasControlador::class, 'destroy'])->name('categorias.destroy');
 
 
+Route::get('producto/{producto_id}', [App\Http\Controllers\productosControlador::class, 'show'])->name('producto');
 Route::get('productos', [App\Http\Controllers\productosControlador::class, 'index'])->name('productos');
 Route::post('productos', [App\Http\Controllers\productosControlador::class, 'store'])->name('productos.store');
 Route::post('productos/{producto_id}', [App\Http\Controllers\productosControlador::class, 'update'])->name('productos.update');

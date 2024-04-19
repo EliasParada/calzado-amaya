@@ -17,6 +17,8 @@ class productos extends Model
         'categoria_id',
         'nombre',
         'descripcion',
+        'colores',
+        'tallas',
         'imagenes',
         'precio_compra',
         'precio_venta',

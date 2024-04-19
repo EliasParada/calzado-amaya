@@ -23,7 +23,7 @@
 
 <div class="text-center flex flex-col items-center gap-8 px-6 py-24">
     <p class="text-4xl font-semibold mb-4">Categorías</p>
-    <p class="text-lg text-gray-600 md:w-2/3">Zapatos artesanales hechos con... para lucir en tu día a día como estudiante, profesional o artista, en tu grupo de amigos o en tu trabajo.</p>
+    <p class="text-lg text-gray-600 md:w-2/3">Zapatos artesanales para lucir en tu día a día como estudiante, profesional o artista, en tu grupo de amigos o en tu trabajo.</p>
     
     <a href="{{ route('categorias') }}" class="inline-block text-black bg-white px-8 py-3 border-2 border-black shadow-md hover:bg-gray-200 active:bg-black active:text-white transition duration-300">Ver más</a>
 

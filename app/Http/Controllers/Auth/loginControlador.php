@@ -21,6 +21,7 @@ class loginControlador extends Controller
 
     public function login(Request $request)
     {
+        // dd($request);
         $credentials = request()->only('correo', 'password');
 
         $remember = request()->filled('rememberme');

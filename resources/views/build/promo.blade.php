@@ -5,5 +5,5 @@
 @endsection
 
 @section('content')
-    Index Admin
+    promociones
 @endsection
