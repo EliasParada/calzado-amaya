@@ -29,6 +29,7 @@ Route::get('carrito', [App\Http\Controllers\carritoControlador::class, 'index'])
 Route::post('carrito', [App\Http\Controllers\carritoControlador::class, 'store'])->name('carrito.store');
 Route::post('carrito/vaciar', [App\Http\Controllers\carritoControlador::class, 'destroy'])->name('carrito.vaciar');
 Route::post('carrito/{producto_id}', [App\Http\Controllers\carritoControlador::class, 'update'])->name('carrito.eliminar');
+Route::post('cobrar', [App\Http\Controllers\carritoControlador::class, 'cobrar'])->name('cobrar');
 
 Route::get('categorias', [App\Http\Controllers\categoriasControlador::class, 'index'])->name('categorias');
 Route::post('categorias', [App\Http\Controllers\categoriasControlador::class, 'store'])->name('categorias.store');

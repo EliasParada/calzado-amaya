@@ -64,7 +64,10 @@
                     <p>{{ $subtotal }}</p>
                 </div>
             </ul>
-            <button class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-full">Continuar con la compra</button>
+            <form action="{{ route('cobrar') }}" method="POST">
+                @csrf
+                <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-full">Continuar con la compra</button>
+            </form>
         </div>
     </div>
 </div>

@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'pagadito' => [
+        'uid' => env('PAGADITO_UID'),
+        'wsk' => env('PAGADITO_WSK'),
+        'sandbox' => env('PAGADITO_SANDBOX', false),
+    ],
+
 ];

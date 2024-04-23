@@ -4,12 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\productos;
 use Illuminate\Http\Request;
+use Pagadito;
 
-class carritoControlador extends Controller
+require_once(__DIR__. '../../../services/config.php');
+require_once(__DIR__. '../../../services/lib/Pagadito.php');
+
+class carritoControlador extends Pagadito
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    protected $pagadito;
+
+    public function __construct()
+    {
+        $this->pagadito = new Pagadito(UID, WSK);
+        
+        if (SANDBOX) {
+            $this->pagadito->mode_sandbox_on();
+        }
+    }
+    
+    
     public function index()
     {
         $carrito = session()->get('carrito', []);
@@ -122,5 +136,20 @@ class carritoControlador extends Controller
     {
         session()->forget('carrito');
         return redirect()->back()->with('success', 'El carrito se ha vaciado correctamente');
+    }
+
+    public function cobrar()
+    {
+        if($this->pagadito->connect()) {
+            $this->pagadito->add_detail(1, "Producto 1", 25);
+            $this->pagadito->add_detail(1, "Producto 2", 100);
+            $this->pagadito->add_detail(1, "Descuento 10%", 12.5);
+            $ern = "FACTURA-XYZ" . rand(1, 1000);
+            if (!$this->pagadito->exec_trans($ern)) {
+                return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
+            }
+        } else {
+            return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
+        }
     }
 }
