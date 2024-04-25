@@ -1,4 +1,6 @@
 <?php
+
+namespace App\Lib\Services;
 /**
  * Es la API para conectarse con Pagadito y realizar cobros de forma segura.
  *

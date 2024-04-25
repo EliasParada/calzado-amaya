@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\productos;
 use Illuminate\Http\Request;
-use Pagadito;
+use App\Lib\Services\Pagadito;
 
 require_once(__DIR__. '../../../services/config.php');
 require_once(__DIR__. '../../../services/lib/Pagadito.php');
@@ -141,15 +141,47 @@ class carritoControlador extends Pagadito
     public function cobrar()
     {
         if($this->pagadito->connect()) {
-            $this->pagadito->add_detail(1, "Producto 1", 25);
-            $this->pagadito->add_detail(1, "Producto 2", 100);
-            $this->pagadito->add_detail(1, "Descuento 10%", 12.5);
-            $ern = "FACTURA-XYZ" . rand(1, 1000);
-            if (!$this->pagadito->exec_trans($ern)) {
+            $carrito = session()->get('carrito', []);
+            foreach ($carrito as $item) {
+                $this->pagadito->add_detail($item['cantidad'], $item['nombre'], $item['precio_unidad']);
+            }
+
+            // Identificador de factura (Cualquier texto)
+            $fechaHora = date('YmdHis');
+            $numeroAleatorio = rand(100, 999);
+            $ern = "CA-FACTURA-$fechaHora-$numeroAleatorio";
+            if ($this->pagadito->exec_trans($ern)) {
+                // Guardar en la base de datos con un estado de pago PENDIENTE en lo que se procese el pago en Pagadito
+            } else {
                 return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
             }
         } else {
             return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
+        }
+    }
+
+    public function verificar(Request $request, $token, $ern)
+    {
+        if($this->pagadito->connect()) {
+            if ($this->pagadito->get_status($token)) {
+                $estado = $this->pagadito->get_rs_status();
+                echo "Estado: " . $estado . "\n";
+                if ($estado == "COMPLETED") {
+                    // Actualizar la compra en la tabla con un estado COMPLETADO
+                    // Retrornar la vista con la info de la factura, Fecha y hora, Numero de aprobación de Pagadito e Identificador de factura
+                    $numero_aprobacion_pg = $this->pagadito->get_rs_reference();
+                    $fecha_cobro = $this->pagadito->get_rs_date_trans();
+                    echo "N&uacute;mero de aprobaci&oacute;n PG: " .
+                    $numero_aprobacion_pg . "\n";
+                    echo "Fecha: " . $fecha_cobro . "\n";
+                } else {
+                    // Si el estado es distinto
+                }
+            } else {
+                echo "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message() . "\n";
+            }
+        } else {
+            echo "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message() . "\n";
         }
     }
 }

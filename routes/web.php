@@ -30,6 +30,7 @@ Route::post('carrito', [App\Http\Controllers\carritoControlador::class, 'store']
 Route::post('carrito/vaciar', [App\Http\Controllers\carritoControlador::class, 'destroy'])->name('carrito.vaciar');
 Route::post('carrito/{producto_id}', [App\Http\Controllers\carritoControlador::class, 'update'])->name('carrito.eliminar');
 Route::post('cobrar', [App\Http\Controllers\carritoControlador::class, 'cobrar'])->name('cobrar');
+Route::get('pagos/estado/token/{token}/comprobante/{ern}', [App\Http\Controllers\carritoControlador::class, 'verificar'])->name('pagos.verificar');
 
 Route::get('categorias', [App\Http\Controllers\categoriasControlador::class, 'index'])->name('categorias');
 Route::post('categorias', [App\Http\Controllers\categoriasControlador::class, 'store'])->name('categorias.store');
