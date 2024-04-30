@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\productos;
+use App\Models\compras;
 use Illuminate\Http\Request;
 use App\Lib\Services\Pagadito;
+use Illuminate\Support\Facades\Auth;
 
 require_once(__DIR__. '../../../services/config.php');
 require_once(__DIR__. '../../../services/lib/Pagadito.php');
@@ -140,19 +142,39 @@ class carritoControlador extends Pagadito
 
     public function cobrar()
     {
+        $carrito = session()->get('carrito', []);
+
+        $precioTotal = 0;
+        $descuentoTotal = 0;
+        foreach ($carrito as $item) {
+            $precioTotal += $item['precio_unidad'] * $item['cantidad'];
+        }
+
+        $precioNeto = $precioTotal - $descuentoTotal;
+        $comisionPagadito = $precioNeto * 0.05 + 0.25;
+
+        $fechaHora = date('YmdHis');
+        $numeroAleatorio = rand(100, 999);
+        $ern = "CA-FACTURA-$fechaHora-$numeroAleatorio";
+        
+        $compra = compras::create([
+            'factura_nombre' => $ern,
+            'fecha_compra' => date('Y-m-d H:i:s'),
+            'ubicacion_envio' => 'Aqui',
+            'descuento' => $descuentoTotal,
+            'precio_real' => 0,
+            'precio_total' => $precioTotal,
+            'precio_neto' => $precioNeto,
+            'comision_pagadito' => $comisionPagadito,
+            'estado' => 'PENDIENTE',
+        ]);
+
         if($this->pagadito->connect()) {
-            $carrito = session()->get('carrito', []);
             foreach ($carrito as $item) {
                 $this->pagadito->add_detail($item['cantidad'], $item['nombre'], $item['precio_unidad']);
             }
 
-            // Identificador de factura (Cualquier texto)
-            $fechaHora = date('YmdHis');
-            $numeroAleatorio = rand(100, 999);
-            $ern = "CA-FACTURA-$fechaHora-$numeroAleatorio";
-            if ($this->pagadito->exec_trans($ern)) {
-                // Guardar en la base de datos con un estado de pago PENDIENTE en lo que se procese el pago en Pagadito
-            } else {
+            if (!$this->pagadito->exec_trans($ern)) {
                 return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
             }
         } else {
@@ -167,13 +189,11 @@ class carritoControlador extends Pagadito
                 $estado = $this->pagadito->get_rs_status();
                 echo "Estado: " . $estado . "\n";
                 if ($estado == "COMPLETED") {
-                    // Actualizar la compra en la tabla con un estado COMPLETADO
-                    // Retrornar la vista con la info de la factura, Fecha y hora, Numero de aprobación de Pagadito e Identificador de factura
-                    $numero_aprobacion_pg = $this->pagadito->get_rs_reference();
-                    $fecha_cobro = $this->pagadito->get_rs_date_trans();
-                    echo "N&uacute;mero de aprobaci&oacute;n PG: " .
-                    $numero_aprobacion_pg . "\n";
-                    echo "Fecha: " . $fecha_cobro . "\n";
+                    $compra = compras::where('factura_nombre', $ern)->first();
+                    if ($compra) {
+                        $compra->update(['estado' => 'COMPLETADO']);
+                    }
+                    return view('build.pago', compact('fecha_cobro', 'numero_aprobacion_pg'));
                 } else {
                     // Si el estado es distinto
                 }

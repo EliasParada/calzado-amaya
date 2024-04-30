@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
 @section('title')
-<title>Calzado Amaya</title>
+<title>Pago exitoso | Calzado Amaya</title>
 @endsection
 
 @section('content')
-    Andele
+    {{ $fecha_cobro }}
+    <br>
+    {{ $numero_aprobacion_pg }}
 @endsection
