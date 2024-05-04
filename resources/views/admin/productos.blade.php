@@ -12,7 +12,7 @@
 
 @section('content')
 @php
-$colores = ['Rojo', 'Azul', 'Blanco', 'Café', 'Morado', 'Beige', 'Gris', 'Rosado', 'Anaranjado', 'Ocre'];
+$colores = ['Rojo', 'Azul', 'Blanco', 'Café', 'Morado', 'Beige', 'Gris', 'Rosado', 'Anaranjado', 'Ocre','Negro'];
 
 $tallas = [
     [24,25,26,27,28,29,30,31,32],
