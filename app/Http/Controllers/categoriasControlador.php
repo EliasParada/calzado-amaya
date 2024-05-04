@@ -17,13 +17,24 @@ class categoriasControlador extends Controller
         if (Auth::check() && Auth::user()->administrador) {
             return view('admin.categorias');
         }
-
+    
+        $query = productos::query();
+    
+        // Aplicar filtro de búsqueda por nombre
         if ($request->has('search')) {
-            $productos = productos::where('nombre', 'like', '%' . $request->search . '%')
-                ->paginate(10);
-        } else {
-            $productos = productos::paginate(10);
+            $query->where('nombre', 'like', '%' . $request->search . '%');
         }
+    
+        // Aplicar filtro por categorías
+        if ($request->has('categorias')) {
+            $categoriasSeleccionadas = $request->categorias;
+            $query->whereHas('categoria', function ($q) use ($categoriasSeleccionadas) {
+                $q->whereIn('categoria_id', $categoriasSeleccionadas);
+            });
+        }
+    
+        // Obtener los productos paginados
+        $productos = $query->paginate(10);
         
         return view('build.categorias', compact('productos'));
     }

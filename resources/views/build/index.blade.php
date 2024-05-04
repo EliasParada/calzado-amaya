@@ -5,16 +5,16 @@
 @endsection
 
 @section('content')
-<div class="slider-container h-80 bg-gray-200 py-12 relative">
-    <div class="slider mx-auto max-w-6xl h-full overflow-hidden relative">
-        <div class="slide absolute transition-all duration-300 w-full h-full flex justify-center items-center">
-            <img src="{{ asset('img/promocion1.jpg') }}" alt="Promoción 1" class="w-full h-full">
+<div class="slider-container h-80 bg-gray-200 relative">
+    <div class="slider mx-auto w-full h-full overflow-hidden relative">
+        <div class="slide absolute transition-all duration-300 w-full h-full flex justify-center items-center" style="background-color: #ffbd59;">
+            <img src="{{ asset('imagenes/banners/banner_01.png') }}" alt="Promoción 1" class="w-auto h-full">
         </div>
-        <div class="slide absolute transition-all duration-300 w-full h-full flex justify-center items-center">
-            <img src="{{ asset('img/promocion2.jpg') }}" alt="Promoción 2" class="w-full h-full">
+        <div class="slide absolute transition-all duration-300 w-full h-full flex justify-center items-center" style="background-color: #613b24;">
+            <img src="{{ asset('imagenes/banners/banner_02.png') }}" alt="Promoción 2" class="w-auto h-full">
         </div>
-        <div class="slide absolute transition-all duration-300 w-full h-full flex justify-center items-center">
-            <img src="{{ asset('img/promocion3.jpg') }}" alt="Promoción 3" class="w-full h-full">
+        <div class="slide absolute transition-all duration-300 w-full h-full flex justify-center items-center" style="background-color: #354a42;">
+            <img src="{{ asset('imagenes/banners/banner_03.png') }}" alt="Promoción 3" class="w-auto h-full">
         </div>
     </div>
     <div class="prev absolute top-1/2 left-0 transform -translate-y-1/2 py-2 px-4 text-white bg-secondary-white/25 rounded-full cursor-pointer hover:bg-secondary-white/50"><</div>
@@ -128,8 +128,7 @@
     document.querySelector('.next').addEventListener('click', nextSlide);
     document.querySelector('.prev').addEventListener('click', prevSlide);
 
-    // Iniciar la animación automática
-    setInterval(nextSlide, 5000); // Cambiar de slide cada 5 segundos
+    setInterval(nextSlide, 5000);
 
     showSlide(currentIndex);
 </script>

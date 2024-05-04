@@ -46,6 +46,7 @@ class productosControlador extends Controller
         $tallasJson = json_encode($tallas);
 
         $producto = new productos();
+        $producto->codigo = $request->codigo;
         $producto->categoria_id = $request->categoria_id;
         $producto->nombre = $request->nombre;
         $producto->descripcion = $request->descripcion;
@@ -65,7 +66,7 @@ class productosControlador extends Controller
      */
     public function show(productos $productos, $producto_id)
     {
-        $producto = productos::findOrFail($producto_id); // Suponiendo que tengas un modelo Producto
+        $producto = productos::findOrFail($producto_id);
 
         return view('build.producto', compact('producto'));
     }
@@ -91,6 +92,7 @@ class productosControlador extends Controller
         $tallas = $request->input('tallas');
         $tallasJson = json_encode($tallas);
 
+        $producto->codigo = $request->codigo;
         $producto->categoria_id = $request->categoria_id;
         $producto->nombre = $request->nombre;
         $producto->descripcion = $request->descripcion;
@@ -99,20 +101,16 @@ class productosControlador extends Controller
         $producto->precio_compra = $request->precio_compra;
         $producto->precio_venta = $request->precio_venta;
         $producto->existencia = $request->existencia;
-    
-        // Manejar la eliminación de imágenes
+
         if ($request->has('imagenes-eliminar')) {
             $imagenesEliminar = explode(',', $request->input('imagenes-eliminar'));
     
-            // Decodificar el JSON de imágenes del producto
             $imagenesProducto = json_decode($producto->imagenes);
     
-            // Filtrar las imágenes del producto para eliminar las que estén en la lista de eliminación
             $imagenesProducto = array_filter($imagenesProducto, function ($imagen) use ($imagenesEliminar) {
                 return !in_array($imagen, $imagenesEliminar);
             });
-    
-            // Eliminar los archivos de las imágenes a eliminar del servidor
+
             foreach ($imagenesEliminar as $imagenEliminar) {
                 if ($imagenEliminar != "") {
                     $rutaImagen = public_path('imagenes/' . $imagenEliminar);
@@ -121,12 +119,9 @@ class productosControlador extends Controller
                     }
                 }
             }
-    
-            // Codificar nuevamente las imágenes del producto como JSON
             $producto->imagenes = json_encode(array_values($imagenesProducto));
         }
-    
-        // Subir y guardar nuevas imágenes
+
         $imagenesNombres = [];
         if ($request->hasFile('imagenes')) {
             foreach ($request->file('imagenes') as $imagen) {

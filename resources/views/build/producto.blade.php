@@ -12,7 +12,7 @@
 
 @section('content')
 @php
-$colores = ['Rojo', 'Verde', 'Azul'];
+$colores = ['Rojo', 'Verde', 'Azul', 'Negro'];
 
 $tallas = [
     [24,25,26,27,28,29,30,31,32],
@@ -40,8 +40,9 @@ $tallas = [
                     <div class="flex gap-4">
                         @foreach ($tallas as $grupoIndex => $grupo)
                             @foreach ($grupo as $tallaIndex => $talla)
+                                @php $checkedAlready = true; @endphp
                                 @if ($producto->tallas && in_array($talla, json_decode($producto->tallas)))
-                                    <input type="radio" id="tallas-{{ $grupoIndex }}-{{ $tallaIndex }}" name="talla" value="{{ $talla }}" class="mr-2 hidden">
+                                    <input type="radio" id="tallas-{{ $grupoIndex }}-{{ $tallaIndex }}" name="talla" value="{{ $talla }}" class="mr-2 hidden" @if($grupoIndex == 0 && $checkedAlready) checked @php $checkedAlready = false; @endphp @endif>
                                     <label for="tallas-{{ $grupoIndex }}-{{ $tallaIndex }}" class="flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">
                                         <span>{{ $talla }}</span>
                                     </label>
@@ -53,9 +54,10 @@ $tallas = [
                 <div>
                     <p>Color</p>
                     <div class="flex gap-4">
+                        @php $checkedAlready = true; @endphp
                         @foreach ($colores as $index => $color)
                             @if ($producto->colores && in_array($color, json_decode($producto->colores)))
-                                <input type="radio" id="color-{{ $index }}" name="color" value="{{ $color }}" class="mr-2 hidden">
+                                <input type="radio" id="color-{{ $index }}" name="color" value="{{ $color }}" class="mr-2 hidden" @if($index == 0 || $checkedAlready) checked @php $checkedAlready = false; @endif>
                                 <label for="color-{{ $index }}" class="flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">
                                     <span>{{ $color }}</span>
                                 </label>
@@ -65,13 +67,47 @@ $tallas = [
                 </div>
                 <p class="text-gray-600">Existencia: {{ $producto->existencia }}</p>
                 <div class="w-full flex gap-4 justicy-end items-end">
-                    <button class="w-2/4 text-bacl px-4 py-2 border-2 border-black hover:bg-black hover:text-white">Agregar al carrito</button>
+                    @if($producto->existencia > 0)
+                        <button class="w-2/4 text-bacl px-4 py-2 border-2 border-black hover:bg-black hover:text-white">Agregar al carrito</button>
+                    @else
+                        <button class="w-2/4 text-bacl px-4 py-2 border-2 border-gray-400 cursor-not-allowed opacity-50">Agotado</button>
+                    @endif
                     <div class="w-1/4 flex flex-col gap-2">
                         <p>Cantidad</p>
-                        <input type="number" id="quantity" name="cantidad" class="border-black border-2 border-black px-3 py-2" min="1" max="{{ $producto->existencia }}" placeholder="Cantidad">
+                        <input type="number" id="quantity" name="cantidad" class="hidden" min="1" max="{{ $producto->existencia }}" value="1" readonly>
+                        <div class="flex gap-2 justify-between items-center">
+                            <div class="p-2 border-black border-2 cursor-pointer" onclick="decrement()">-</div>
+                            <div class="border-black border-2 border-black p-2 w-8" id="cantidad-valor">1</div>
+                            <div class="p-2 border-black border-2 cursor-pointer" onclick="increment()">+</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+@endsection
+
+@section('script')
+<script>
+    let cantidadValor = document.getElementById('cantidad-valor');
+    function increment() {
+        var input = document.getElementById('quantity');
+        var value = parseInt(input.value, 10);
+        var max = parseInt(input.getAttribute('max'), 10);
+        if (value < max) {
+            input.value = value + 1;
+            cantidadValor.innerHTML = input.value;
+        }
+    }
+
+    function decrement() {
+        var input = document.getElementById('quantity');
+        var value = parseInt(input.value, 10);
+        var min = parseInt(input.getAttribute('min'), 10);
+        if (value > min) {
+            input.value = value - 1;
+            cantidadValor.innerHTML = input.value;
+        }
+    }
+</script>
 @endsection

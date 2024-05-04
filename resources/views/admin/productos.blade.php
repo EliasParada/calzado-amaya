@@ -29,6 +29,8 @@ $tallas = [
             <thead class="bg-gray-50">
                 <tr>
                     <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                    <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del
                         Producto</th>
                     <th scope="col"
@@ -49,7 +51,8 @@ $tallas = [
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($productos as $producto)
-                    <tr>
+                <tr>
+                        <td class="px-6 py-4">{{ $producto->codigo }}</td>
                         <td class="px-6 py-4">{{ $producto->nombre }}</td>
                         <td class="px-6 py-4">{{ $producto->categoria->nombre }}</td>
                         <td class="px-6 py-4">{{ $producto->descripcion }}</td>
@@ -69,6 +72,10 @@ $tallas = [
                     <x-modal id="editarProductoModal_{{ $producto->producto_id }}" title="Editar Producto">
                         <form action="{{ route('productos.update', $producto->producto_id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            <div class="mb-4">
+                                <label for="codigo_editar" class="block text-sm font-medium text-gray-700">Nuevo código del producto</label>
+                                <input type="text" name="codigo" id="codigo_editar" value="{{ $producto->codigo }}" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50">
+                            </div>
                             <div class="mb-4">
                                 <label for="categoria_editar" class="block text-sm font-medium text-gray-700">Categoría</label>
                                 <select name="categoria_id" id="categoria_editar" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50">
@@ -173,6 +180,10 @@ $tallas = [
     <x-modal id="crearCategoriaModal" title="Crear Producto">
         <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <div class="mb-4">
+                <label for="codigo" class="block text-sm font-medium text-gray-700">Código</label>
+                <input type="text" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="codigo" name="codigo" required>
+            </div>
             <div class="mb-4">
                 <label for="categoria_id" class="block text-sm font-medium text-gray-700">Categoría</label>
                 <select class="block w-full mt-1 border-gray-300 rounded-md shadow-sm p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="categoria_id" name="categoria_id">

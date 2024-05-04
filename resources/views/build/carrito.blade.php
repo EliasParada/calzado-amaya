@@ -26,10 +26,15 @@
                             <h3 class="text-xl font-bold">{{ $item['nombre'] }}</h3>
                             <h3 class="">Talla: {{ $item['talla'] }}</h3>
                             <h3 class="">Color: {{ $item['color'] }}</h3>
+                            <h3 class="">Precio: ${{ $item['precio_unidad'] }}</h3>
                             <h3 class="">Cantidad:
-                                <input type="number" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['cantidad_disponible'] }}"
-                                class="w-16 border border-gray-300 rounded-md px-2 py-1"></h3>
-                            <h3 class="text-xl font-bold">${{ $item['precio_unidad'] }}</h3>
+                                <input type="number" id="quantity" name="cantidad" class="hidden" min="1" max="{{ $item['cantidad_disponible'] }}" value="{{ $item['cantidad'] }}" value="1" readonly>
+                                <div class="flex gap-2 justify-start items-center">
+                                    <div class="p-2 border-black border-2 cursor-pointer" onclick="decrement({{ $item['producto_id'] }})" id="decrement-btn-{{ $item['producto_id'] }}">-</div>
+                                    <div class="border-black border-2 border-black p-2 w-8" id="cantidad-valor-{{ $item['producto_id'] }}">{{ $item['cantidad'] }}</div>
+                                    <div class="p-2 border-black border-2 cursor-pointer" onclick="increment({{ $item['producto_id'] }})" id="increment-btn-{{ $item['producto_id'] }}">+</div>
+                                </div>
+                            </h3>
                         </div>
                         <div class="h-full flex items-end">
                             <form action="{{ route('carrito.eliminar', $item['producto_id']) }}" method="POST">
@@ -53,15 +58,15 @@
             <div class="w-full flex flex-col gap-2">
                 <div class="mb-2 w-full flex justify-between">
                     <p>Subtotal:</p>
-                    <p>${{ $subtotal }}</p>
+                    <p id="subtotal">${{ $subtotal }}</p>
                 </div>
                 <div class="mb-2 w-full flex justify-between">
                     <p>Envio:</p>
-                    <p>Por calcular</p>
+                    <p id="envio">Por calcular</p>
                 </div>
                 <div class="border-t border-gray-300 py-2 font-semibold w-full flex justify-between">
                     <p>Total a pagar:</p>
-                    <p>{{ $subtotal }}</p>
+                    <p id="total">{{ $subtotal }}</p>
                 </div>
             </ul>
             <form action="{{ route('cobrar') }}" method="POST">
@@ -71,4 +76,52 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    function increment(productId) {
+        updateQuantity(productId, 1);
+    }
+
+    function decrement(productId) {
+        updateQuantity(productId, -1);
+    }
+
+    function updateQuantity(productId, incrementBy) {
+        let quantityElement = document.getElementById(`cantidad-valor-${productId}`);
+        console.log(productId);
+        let currentValue = parseInt(quantityElement.textContent);
+        let newValue = currentValue + incrementBy;
+
+        let incrementButton = document.getElementById(`increment-btn-${productId}`);
+        let decrementButton = document.getElementById(`decrement-btn-${productId}`);
+        incrementButton.disabled = true;
+        decrementButton.disabled = true;
+
+        fetch('{{ route('actualizar.cantidad') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                newValue: newValue
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            quantityElement.textContent = newValue;
+            document.getElementById('subtotal').innerHTML = `$${data.subtotal}`;
+            incrementButton.disabled = false;
+            decrementButton.disabled = false;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            incrementButton.disabled = false;
+            decrementButton.disabled = false;
+        });
+    }
+</script>
 @endsection

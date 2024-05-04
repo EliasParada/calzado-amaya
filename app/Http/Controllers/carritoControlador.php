@@ -204,4 +204,43 @@ class carritoControlador extends Pagadito
             echo "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message() . "\n";
         }
     }
+
+    public function actualizarCantidad(Request $request)
+    {
+        $productoId = $request->input('productId');
+        $nuevaCantidad = $request->input('newValue');
+
+        // Verificar si el producto existe en el carrito
+        $carrito = session()->get('carrito', []);
+        $productoEnCarrito = collect($carrito)->firstWhere('producto_id', $productoId);
+
+        if (!$productoEnCarrito) {
+            return response()->json(['error' => 'El producto no se encuentra en el carrito'], 404);
+        }
+
+        // Verificar si la nueva cantidad es válida
+        $producto = productos::find($productoId);
+        if (!$producto) {
+            return response()->json(['error' => 'El producto seleccionado no existe'], 404);
+        }
+        if ($nuevaCantidad < 1 || $nuevaCantidad > $producto->existencia) {
+            return response()->json(['error' => 'La cantidad no es válida'], 400);
+        }
+
+        // Actualizar la cantidad del producto en el carrito
+        foreach ($carrito as &$item) {
+            if ($item['producto_id'] == $productoId) {
+                $item['cantidad'] = $nuevaCantidad;
+                break;
+            }
+        }
+        session()->put('carrito', $carrito);
+
+        // Calcular el subtotal nuevamente (si es necesario)
+        $subtotal = array_sum(array_map(function($item) {
+            return $item['precio_unidad'] * $item['cantidad'];
+        }, $carrito));
+
+        return response()->json(['success' => 'Cantidad actualizada en el carrito', 'subtotal' => $subtotal]);
+    }
 }

@@ -30,12 +30,14 @@ Route::post('carrito', [App\Http\Controllers\carritoControlador::class, 'store']
 Route::post('carrito/vaciar', [App\Http\Controllers\carritoControlador::class, 'destroy'])->name('carrito.vaciar');
 Route::post('carrito/{producto_id}', [App\Http\Controllers\carritoControlador::class, 'update'])->name('carrito.eliminar');
 Route::post('cobrar', [App\Http\Controllers\carritoControlador::class, 'cobrar'])->name('cobrar');
+Route::post('/carrito/actualizar/cantidad', [App\Http\Controllers\carritoControlador::class, 'actualizarCantidad'])->name('actualizar.cantidad');
 Route::get('pagos/estado/token/{token}/comprobante/{ern}', [App\Http\Controllers\carritoControlador::class, 'verificar'])->name('pagos.verificar');
 
 Route::get('categorias', [App\Http\Controllers\categoriasControlador::class, 'index'])->name('categorias');
 Route::post('categorias', [App\Http\Controllers\categoriasControlador::class, 'store'])->name('categorias.store');
 Route::post('categorias/{categoria_id}', [App\Http\Controllers\categoriasControlador::class, 'update'])->name('categorias.update');
 Route::delete('categorias/{categoria_id}', [App\Http\Controllers\categoriasControlador::class, 'destroy'])->name('categorias.destroy');
+Route::get('/categorias/filtrar', [App\Http\Controllers\categoriasControlador::class, 'filtrar'])->name('categorias.filtrar');
 
 
 Route::get('producto/{producto_id}', [App\Http\Controllers\productosControlador::class, 'show'])->name('producto');
