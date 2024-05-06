@@ -99,7 +99,7 @@
         incrementButton.disabled = true;
         decrementButton.disabled = true;
 
-        fetch('{{ secure_url('actualizar.cantidad') }}', {
+        fetch('/carrito/actualizar/cantidad', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
