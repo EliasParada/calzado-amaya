@@ -99,7 +99,7 @@
         incrementButton.disabled = true;
         decrementButton.disabled = true;
 
-        fetch('{{ route('actualizar.cantidad') }}', {
+        fetch('{{ secure_url('actualizar.cantidad') }}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
