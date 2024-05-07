@@ -96,7 +96,7 @@ $tallas = [
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Colores</label>
-                                <div class="flex gap-4">
+                                <div class="flex gap-4 flex-wrap">
                                     @foreach ($colores as $index => $color)
                                         <input type="checkbox" id="color-{{ $index }}-{{ $producto->producto_id }}" name="colores[]" value="{{ $color }}" class="mr-2 hidden" {{ $producto->colores && in_array($color, json_decode($producto->colores)) ? 'checked' : '' }}>
                                         <label for="color-{{ $index }}-{{ $producto->producto_id }}" class="flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">
@@ -123,7 +123,7 @@ $tallas = [
                             <div class="mb-4">
                                 <label for="nueva-imagen-{{ $producto->producto_id }}" class="block text-sm font-medium text-gray-700">Imágenes</label>
                                 <label for="imagenes_editar" class="block text-sm font-medium text-gray-500">Imágenes Actuales</label>
-                                <div class="overflow-x-auto flex space-x-2 max-w-full">
+                                <div class="overflow-x-auto flex gap-2 justify-start max-w-full flex-wrap">
                                     @foreach (json_decode($producto->imagenes) as $imagen)
                                         <div class="relative">
                                             <img src="{{ asset('imagenes/' . $imagen) }}" alt="Vista Previa" class="w-24 h-24 rounded-md">
@@ -203,7 +203,7 @@ $tallas = [
             <div class="mb-4">
                 <label for="colores" class="block text-sm font-medium text-gray-700">Colores Disponibles</label>
                 <div class="space-y-2">
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 flex-wrap">
                         @foreach ($colores as $index => $color)
                             <input type="checkbox" id="color-{{ $index }}" name="color" value="{{ $color }}" class="mr-2 hidden">
                             <label for="color-{{ $index }}" class="flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">

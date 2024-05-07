@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-    {{ $fecha_cobro }}
+Pago exitoso
     <br>
-    {{ $numero_aprobacion_pg }}
 @endsection

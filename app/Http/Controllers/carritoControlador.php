@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\productos;
 use App\Models\compras;
+use App\Models\detalleCompras;
 use Illuminate\Http\Request;
 use App\Lib\Services\Pagadito;
 use Illuminate\Support\Facades\Auth;
@@ -42,17 +43,11 @@ class carritoControlador extends Pagadito
         return view('build/carrito', ['carrito' => $carrito, 'subtotal' => $subtotal]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $producto_id = $request->input('producto_id');
@@ -98,25 +93,16 @@ class carritoControlador extends Pagadito
         return redirect()->back()->with('success', 'Producto agregado al carrito');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(productos $productos)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(productos $productos)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, productos $productos, $producto_id)
     {
         $carrito = session()->get('carrito', []);
@@ -131,9 +117,6 @@ class carritoControlador extends Pagadito
         return redirect()->back()->with('success', 'Producto eliminado del carrito');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(productos $productos)
     {
         session()->forget('carrito');
@@ -171,6 +154,17 @@ class carritoControlador extends Pagadito
 
         if($this->pagadito->connect()) {
             foreach ($carrito as $item) {
+                if (
+                    detalleCompras::create([
+                        'compra_id' => $compra->compra_id,
+                        'producto_id' => $item['producto_id'],
+                        'cantidad' => $item['cantidad'],
+                    ])
+                ) {
+                    $producto = productos::find($item['producto_id']);
+                    $producto->existencia = $producto->existencia -  $item['cantidad'];
+                    $producto->save();
+                }
                 $this->pagadito->add_detail($item['cantidad'], $item['nombre'], $item['precio_unidad']);
             }
 
@@ -187,13 +181,13 @@ class carritoControlador extends Pagadito
         if($this->pagadito->connect()) {
             if ($this->pagadito->get_status($token)) {
                 $estado = $this->pagadito->get_rs_status();
-                echo "Estado: " . $estado . "\n";
                 if ($estado == "COMPLETED") {
                     $compra = compras::where('factura_nombre', $ern)->first();
                     if ($compra) {
                         $compra->update(['estado' => 'COMPLETADO']);
                     }
-                    return view('build.pago', compact('fecha_cobro', 'numero_aprobacion_pg'));
+                    // return view('build.pago', compact('fecha_cobro', 'numero_aprobacion_pg'));
+                    return view('build.pago');
                 } else {
                     // Si el estado es distinto
                 }

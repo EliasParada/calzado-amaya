@@ -10,12 +10,12 @@ class detalleCompras extends Model
     use HasFactory;
 
     protected $table = 'detalle_compras';
-    protected $primaryKey = false;
+    public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
         'compra_id',
-        'usuario_id',
+        'producto_id',
         'cantidad',
         'descuento',
     ];
