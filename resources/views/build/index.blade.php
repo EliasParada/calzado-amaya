@@ -32,8 +32,9 @@
             @if($index >= 3)
                 @break
             @endif
+
             <a href="" class="max-w-xs rounded-lg w-1/4 overflow-hidden shadow-md">
-                <img src="{{ asset('img/categoria' . $index . '.jpg') }}" alt="Categoria$index" class="w-full">
+                <img src="{{ asset('imagenes/' . json_decode($categoria->productos[0]->imagenes)[0]) }}" alt="Categoria$index" class="w-full">
                 <div class="p-4">
                     <p class="text-lg font-semibold mb-2">{{ $categoria->nombre }}</p>
                 </div>
