@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="slider-container h-80 bg-gray-200 relative">
+<div class="slider-container h-40 md:h-80 bg-gray-200 relative">
     <div class="slider mx-auto w-full h-full overflow-hidden relative">
         <div class="slide absolute transition-all duration-300 w-full h-full flex justify-center items-center" style="background-color: #ffbd59;">
             <img src="{{ asset('imagenes/banners/banner_01.png') }}" alt="Promoción 1" class="w-auto h-full">

@@ -27,7 +27,7 @@
                             <h3 class="">Talla: {{ $item['talla'] }}</h3>
                             <h3 class="">Color: {{ $item['color'] }}</h3>
                             <h3 class="">Precio: ${{ $item['precio_unidad'] }}</h3>
-                            <h3 class="">Cantidad:
+                            <h3 class="">
                                 <input type="number" id="quantity" name="cantidad" class="hidden" min="1" max="{{ $item['cantidad_disponible'] }}" value="{{ $item['cantidad'] }}" value="1" readonly>
                                 <div class="flex gap-2 justify-start items-center">
                                     <div class="p-2 border-black border-2 cursor-pointer" onclick="decrement({{ $item['producto_id'] }})" id="decrement-btn-{{ $item['producto_id'] }}">-</div>
@@ -37,18 +37,12 @@
                             </h3>
                         </div>
                         <div class="h-full flex items-end">
-                            <form action="{{ route('carrito.eliminar', $item['producto_id']) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="text-black">Eliminar</button>
-                            </form>
+                            <button type="submit" class="text-black" data-bs-toggle-modal="#alertaEliminarProducto" data-route="{{ route('carrito.eliminar', $item['producto_id']) }}" data-producto="{{ $item['nombre'] }}" data-bs-target-form="#eliminarProductoForm">Eliminar</button>
                         </div>
                     </div>
                     @endforeach
                 </div>
-                <form action="{{ route('carrito.vaciar') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-white text-black hover:bg-black hover:text-white border-2 border-black px-4 py-2 my-2">Vaciar Carrito</button>
-                </form>
+                <button type="submit" class="bg-white text-black hover:bg-black hover:text-white border-2 border-black px-4 py-2 my-2" data-bs-toggle-modal="#alertaVaciarCarrito" data-route="{{ route('carrito.vaciar') }}" data-bs-target-form="#vaciarCarritoForm">Vaciar Carrito</button>
             @else
             <p class="mt-4">El carrito está vacío.</p>
             @endif
@@ -69,17 +63,70 @@
                     <p id="total">{{ $subtotal }}</p>
                 </div>
             </ul>
-            <form action="{{ route('cobrar') }}" method="POST">
+            @if (count($carrito) > 0)
+            <form action="{{ route('envio') }}" method="POST">
                 @csrf
-                <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-full">Continuar con la compra</button>
+                <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-full">Continuar con al envio</button>
             </form>
+            @else
+                <a href="{{ route('categorias') }}" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black text-center hover:text-white mt-4 w-full">Continua comprando</a>
+            @endif
         </div>
     </div>
 </div>
+
+<x-modal id="alertaEliminarProducto" title="¡Eliminar del carrito!" textclasses="text-red-500">
+    <p class="mb-4">¿Estás seguro de que deseas eliminar el producto "<b id="nombre-producto-eliminar"></b>"?</p>
+    <form id="eliminarProductoForm" action="" method="POST">
+        @csrf
+        <button type="submit" class="bg-white text-red-500 border-red-500 border-2 hover:bg-red-500 hover:text-white text-center px-4 py-2">Eliminar producto</button>
+    </form>
+</x-modal>
+
+<x-modal id="alertaVaciarCarrito" title="¡Vaciar el carrito!" textclasses="text-red-500">
+    <p class="mb-4">¿Estás seguro de que deseas vaciar el carrito?</p>
+    <form id="vaciarCarritoForm" action="" method="POST">
+        @csrf
+        <button type="submit" class="bg-white text-red-500 border-red-500 border-2 hover:bg-red-500 hover:text-white text-center px-4 py-2">Vaciar carrito</button>
+    </form>
+</x-modal>
+
 @endsection
 
 @section('script')
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButtons = document.querySelectorAll('[data-bs-toggle-modal]');
+        const closeButtons = document.querySelectorAll('.btn-close');
+
+        toggleButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const targetModal = document.querySelector(button.getAttribute('data-bs-toggle-modal'));
+                toggleModal(targetModal);
+
+                if (button.dataset.route) {
+                    document.querySelector(button.getAttribute('data-bs-target-form')).action = button.dataset.route;
+                }
+
+                if (button.dataset.producto) {
+                    document.querySelector('#nombre-producto-eliminar').innerHTML = button.dataset.producto;
+                }
+            });
+        });
+
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const modal = button.closest('.modal');
+                toggleModal(modal);
+                modal.querySelector('form').action = '';
+            });
+        });
+
+        function toggleModal(modal) {
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+        }
+    });
     function increment(productId) {
         updateQuantity(productId, 1);
     }

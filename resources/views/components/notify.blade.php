@@ -1,4 +1,4 @@
-<div class="fixed modal opacity-0 pointer-events-none z-10 inset-0 overflow-y-auto" id="{{ $id }}" aria-labelledby="{{ $id }}Label" role="dialog" aria-modal="true">
+<div class="fixed hidden top-0 right-0 overflow-hidden m-14 p-14 border-2 border-green-500 font-bold bg-white" id="{{ $id }}" aria-labelledby="{{ $id }}Label" role="dialog" aria-modal="true">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
@@ -15,7 +15,6 @@
             <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                     <div class="w-full mt-3 text-center sm:mt-0 sm:text-left">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900 {{ $textclasses }}" id="{{ $id }}Label">{{ $title }}</h3>
                         <div class="mt-2">
                             {{ $slot }}
                         </div>
@@ -25,3 +24,14 @@
         </div>
     </div>
 </div>
+
+<!-- position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    margin: 5rem;
+    padding: 2rem;
+    border: 2px solid green;
+    background: white;
+    font-weight: bold;
+    color: green; -->

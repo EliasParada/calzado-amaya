@@ -123,6 +123,36 @@ class carritoControlador extends Pagadito
         return redirect()->back()->with('success', 'El carrito se ha vaciado correctamente');
     }
 
+    public function envio() {
+        $carrito = session()->get('carrito', []);
+
+        foreach ($carrito as $key => $item) {
+            $producto = productos::findOrFail($item['producto_id']);
+            $carrito[$key]['cantidad_disponible'] = $producto->existencia;
+        }
+
+        $subtotal = array_sum(array_map(function($item) {
+            return $item['precio_unidad'] * $item['cantidad'];
+        }, $carrito));
+
+        return view('build.checkout', ['carrito' => $carrito, 'subtotal' => $subtotal]);
+    }
+
+    public function enviar() {
+        $carrito = session()->get('carrito', []);
+        
+        foreach ($carrito as $key => $item) {
+            $producto = productos::findOrFail($item['producto_id']);
+            $carrito[$key]['cantidad_disponible'] = $producto->existencia;
+        }
+
+        $subtotal = array_sum(array_map(function($item) {
+            return $item['precio_unidad'] * $item['cantidad'];
+        }, $carrito));
+
+        return view('build.envio', ['carrito' => $carrito, 'subtotal' => $subtotal]);
+    }
+
     public function cobrar()
     {
         $carrito = session()->get('carrito', []);

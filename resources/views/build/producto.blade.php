@@ -85,6 +85,14 @@ $tallas = [
             </div>
         </form>
     </div>
+
+    <div>
+        Producto agregado
+    </div>
+
+    <x-notify id="notificacionAgregado" title="¡Producto agregado al carrito!">
+        <p class="mb-4">{{ session('success') }}</p>
+    </x-notify>
 @endsection
 
 @section('script')

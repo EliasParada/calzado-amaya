@@ -33,7 +33,7 @@
                         </td>
                     </tr>
 
-                    <x-modal id="editarCategoriaModal_{{ $categoria->categoria_id }}" title="Editar Categoría">
+                    <x-modal id="editarCategoriaModal_{{ $categoria->categoria_id }}" title="Editar Categoría" textclasses="">
                         <form action="{{ route('categorias.update', $categoria->categoria_id) }}" method="POST">
                             @csrf
                             <div class="mb-4">
@@ -44,7 +44,7 @@
                         </form>
                     </x-modal>
 
-                    <x-modal id="eliminarCategoriaModal_{{ $categoria->categoria_id }}" title="Eliminar Categoría">
+                    <x-modal id="eliminarCategoriaModal_{{ $categoria->categoria_id }}" title="Eliminar Categoría" textclasses="">
                         <p class="mb-4">¿Estás seguro de que deseas eliminar la categoría "{{ $categoria->nombre }}"?</p>
                         <form action="{{ route('categorias.destroy', $categoria->categoria_id) }}" method="POST">
                             @csrf
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<x-modal id="crearCategoriaModal" title="Crear Categoría">
+<x-modal id="crearCategoriaModal" title="Crear Categoría" textclasses="">
     <form action="{{ route('categorias.store') }}" method="POST">
         @csrf
         <div class="mb-4 w-full">

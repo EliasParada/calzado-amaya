@@ -35,7 +35,7 @@
 </head>
 <body class="font-yaldevi box-border h-full">
     <nav id="navbar"
-        class="flex flex-col md:flex-row justify-around items-center md:items-end w-full h-auto md:h-16 box-border py-2 sticky top-0 z-10 bg-main-yellow font-semibold">
+        class="flex justify-around items-center md:items-end w-full h-auto md:h-16 box-border py-2 sticky top-0 z-10 bg-main-yellow font-semibold">
         <a href="{{ route('home') }}"
             class="flex flex-col justify-between h-full box-border items-center">
             <img src="{{ asset('img/calzado-amaya-color.svg') }}" alt="Calzado Amaya" class="w-10 h-auto">
@@ -43,7 +43,7 @@
         </a>
 
         <div
-            class="hidden flex flex-col md:flex-row md:flex justify-between box-border space-x-4">
+            class="hidden md:flex md:flex justify-between box-border space-x-4">
             <a href="{{ route('home') }}">Inicio</a>
             <a href="{{ route('categorias') }}">Catalogo</a>
             <a href="{{ route('promo') }}">Promociones</a>
@@ -88,6 +88,7 @@
             @endif
         </div>
     </nav>
+    
     <main id="content" class="w-full">
         @yield('content')
     </main>

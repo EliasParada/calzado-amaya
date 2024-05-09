@@ -69,7 +69,7 @@ $tallas = [
                         </td>
                     </tr>
 
-                    <x-modal id="editarProductoModal_{{ $producto->producto_id }}" title="Editar Producto">
+                    <x-modal id="editarProductoModal_{{ $producto->producto_id }}" title="Editar Producto" textclasses="">
                         <form action="{{ route('productos.update', $producto->producto_id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-4">
@@ -156,7 +156,7 @@ $tallas = [
                         </form>
                     </x-modal>
 
-                    <x-modal id="eliminarProductoModal_{{ $producto->producto_id }}" title="Eliminar Producto">
+                    <x-modal id="eliminarProductoModal_{{ $producto->producto_id }}" title="Eliminar Producto" textclasses="">
                         <p class="mb-4">¿Estás seguro de que deseas eliminar el producto "{{ $producto->nombre }}"?</p>
                         <form action="{{ route('productos.destroy', $producto->producto_id) }}" method="POST">
                             @csrf
@@ -177,7 +177,7 @@ $tallas = [
     </div>
 </div>
 
-    <x-modal id="crearCategoriaModal" title="Crear Producto">
+    <x-modal id="crearCategoriaModal" title="Crear Producto" textclasses="">
         <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
