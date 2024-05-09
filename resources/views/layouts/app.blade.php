@@ -73,6 +73,13 @@
                                 {{ Auth::user()->nombre }}
                             </a>
                         </li>
+                        @if (!Auth::user()->administrador)
+                        <li>
+                            <a href="{{ route('historial.pedidos', Auth::user()->nombre) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                Historial de pedidos
+                            </a>
+                        </li>
+                        @endif
                         <li>
                             <form action="{{ route('logout') }}" method="POST" class="block">
                                 @csrf
@@ -124,9 +131,9 @@
 
                     <div>
                         <h3 class="text-lg font-semibold mb-2">Contacto</h3>
-                        <a href="#" class="text-black hover:text-main-orange font-lg"><i class="fa-brands fa-instagram"></i></a> 
-                        <a href="#" class="text-black hover:text-main-orange font-lg"><i class="fa-brands fa-facebook"></i></a> 
-                        <a href="#" class="text-black hover:text-main-orange font-lg"><i class="fa-regular fa-envelope"></i></a> 
+                        <a target="_blank" href="https://www.instagram.com/calzadoamaya/" class="text-black hover:text-main-orange font-lg"><i class="fa-brands fa-instagram"></i></a> 
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=61558141000631" class="text-black hover:text-main-orange font-lg"><i class="fa-brands fa-facebook"></i></a> 
+                        <a target="_blank" href="mailto:contacto@calzadoamaya.com" class="text-black hover:text-main-orange font-lg"><i class="fa-regular fa-envelope"></i></a> 
                     </div>
                 </div>
             </div>

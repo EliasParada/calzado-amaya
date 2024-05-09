@@ -21,6 +21,8 @@ Route::post('login', [App\Http\Controllers\Auth\loginControlador::class, 'login'
 Route::post('register', [App\Http\Controllers\Auth\registerControlador::class, 'register'])->name('register.new');
 Route::post('logout', [App\Http\Controllers\Auth\logoutControlador::class, 'logout'])->name('logout');
 
+Route::get('{nombre_usuario}/pedidos', [App\Http\Controllers\inicioControlador::class, 'pedidos'])->name('historial.pedidos');
+
 Route::get('promociones', function () {
     return view('build/promo');
 })->name('promo');

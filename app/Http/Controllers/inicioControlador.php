@@ -17,4 +17,14 @@ class inicioControlador extends Controller
 
         return view('build.index', compact('categorias'));
     }
+
+    public function pedidos()
+    {
+        // $categorias = categorias::all();
+        if (Auth::check() && Auth::user()->administrador) {
+            // return view('admin.index', compact('categorias'));
+        }
+
+        return view('build.pagos');
+    }
 }
