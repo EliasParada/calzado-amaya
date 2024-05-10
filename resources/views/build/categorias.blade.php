@@ -5,11 +5,14 @@
 @endsection
 
 @section('content')
-<h2 class="text-3xl font-semibold mb-4 self-start m-8">Catalogo</h2>
+<h2 class="text-3xl font-semibold mb-4 self-start m-8">Catálogo</h2>
 <div class="md:flex justify-center mt-8">
 
     <div class="w-full md:w-1/4 px-4">
-        <h2 class="text-lg font-semibold mb-4">Filtros</h2>
+        <div class="flex w-full gap-4 items-center mb-4">
+            <h2 class="text-lg font-semibold">Filtros</h2>
+            <a href="{{ route('categorias') }}" class="text-gray-400 underline text-sm">Limpiar filtros</a>
+        </div>
         <form action="{{ route('categorias') }}" method="GET" class="h-0 md:h-auto overflow-hidden">
             <input type="hidden" name="search" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}">
             <h3 class="text-md font-semibold mb-2">Categorías</h3>
@@ -24,7 +27,7 @@
     </div>
 
     <div class="w-full md:w-3/4 px-4 flex flex-col items-end">
-        <div class="border-2 border-black flex gap-2 w-fit py-2 px-8">
+        <div class="border-2 border-black flex gap-2 w-fit py-2 px-8 cursor-pointer">
             <p class="text-slate-400 w-auto">Ordenar por </p><b>Popular</b>
         </div>
         <p>Mostrando {{ $productos->count() }} productos</p>
@@ -44,7 +47,6 @@
                         <p class="text-gray-600">${{ $producto->precio_venta }}</p>
                     </div>
                 </a>
-                <!-- <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2" >Agregar al carrito</button> -->
             </div>
             @empty
             <span class="m-auto col-span-2 w-full text-center">No se han encontrado productos @if ($_GET['search']) de la busqueda <b>"{{ $_GET['search'] }}"</b> @endif</span>
@@ -96,7 +98,7 @@
                 @endif
             </span>
         </div>
-        
+
     </div>
 </div>
 

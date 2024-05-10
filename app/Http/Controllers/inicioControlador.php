@@ -17,6 +17,14 @@ class inicioControlador extends Controller
 
         return view('build.index', compact('categorias'));
     }
+    public function contacto()
+    {
+        return view('build.contacto');
+    }
+    public function nosotros()
+    {
+        return view('admin.nosotros');
+    }
 
     public function pedidos()
     {

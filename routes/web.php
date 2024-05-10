@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\inicioControlador::class, 'index'])->name('home');
+Route::get('nosotros', [App\Http\Controllers\inicioControlador::class, 'nosotros'])->name('home');
+Route::get('contacto', [App\Http\Controllers\inicioControlador::class, 'contacto'])->name('home');
 
 Route::get('login', [App\Http\Controllers\Auth\loginControlador::class, 'index'])->name('login');
 Route::get('register', [App\Http\Controllers\Auth\registerControlador::class, 'index'])->name('register');

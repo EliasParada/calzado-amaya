@@ -5,6 +5,5 @@
 @endsection
 
 @section('content')
-Pago exitoso
-    <br>
+    
 @endsection

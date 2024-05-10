@@ -37,12 +37,16 @@
                             </h3>
                         </div>
                         <div class="h-full flex items-end">
-                            <button type="submit" class="text-black" data-bs-toggle-modal="#alertaEliminarProducto" data-route="{{ route('carrito.eliminar', $item['producto_id']) }}" data-producto="{{ $item['nombre'] }}" data-bs-target-form="#eliminarProductoForm">Eliminar</button>
+                            <button type="submit" class="text-black" data-bs-toggle-modal="#alertaEliminarProducto" data-form="#eliminarProductoForm{{ $item['producto_id'] }}" data-producto="{{ $item['nombre'] }}" data-boton="#boton-eliminar">Eliminar</button>
                         </div>
                     </div>
+
+                    <form id="eliminarProductoForm{{ $item['producto_id'] }}" action="{{ route('carrito.eliminar', $item['producto_id']) }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
                     @endforeach
                 </div>
-                <button type="submit" class="bg-white text-black hover:bg-black hover:text-white border-2 border-black px-4 py-2 my-2" data-bs-toggle-modal="#alertaVaciarCarrito" data-route="{{ route('carrito.vaciar') }}" data-bs-target-form="#vaciarCarritoForm">Vaciar Carrito</button>
+                <button type="submit" class="bg-white text-black hover:bg-black hover:text-white border-2 border-black px-4 py-2 my-2" data-bs-toggle-modal="#alertaVaciarCarrito" data-form="#vaciarCarritoForm">Vaciar Carrito</button>
             @else
             <p class="mt-4">El carrito está vacío.</p>
             @endif
@@ -60,7 +64,7 @@
                 </div>
                 <div class="border-t border-gray-300 py-2 font-semibold w-full flex justify-between">
                     <p>Total a pagar:</p>
-                    <p id="total">{{ $subtotal }}</p>
+                    <p id="total">${{ $subtotal }}</p>
                 </div>
             </ul>
             @if (count($carrito) > 0)
@@ -77,19 +81,17 @@
 
 <x-modal id="alertaEliminarProducto" title="¡Eliminar del carrito!" textclasses="text-red-500">
     <p class="mb-4">¿Estás seguro de que deseas eliminar el producto "<b id="nombre-producto-eliminar"></b>"?</p>
-    <form id="eliminarProductoForm" action="" method="POST">
-        @csrf
-        <button type="submit" class="bg-white text-red-500 border-red-500 border-2 hover:bg-red-500 hover:text-white text-center px-4 py-2">Eliminar producto</button>
-    </form>
+    <button type="submit" id="boton-eliminar" class="submit-btn bg-white text-red-500 border-red-500 border-2 hover:bg-red-500 hover:text-white text-center px-4 py-2" data-form="">Eliminar producto</button>
 </x-modal>
 
 <x-modal id="alertaVaciarCarrito" title="¡Vaciar el carrito!" textclasses="text-red-500">
     <p class="mb-4">¿Estás seguro de que deseas vaciar el carrito?</p>
-    <form id="vaciarCarritoForm" action="" method="POST">
-        @csrf
-        <button type="submit" class="bg-white text-red-500 border-red-500 border-2 hover:bg-red-500 hover:text-white text-center px-4 py-2">Vaciar carrito</button>
-    </form>
+    <button type="submit" class="submit-btn bg-white text-red-500 border-red-500 border-2 hover:bg-red-500 hover:text-white text-center px-4 py-2" data-form="#vaciarCarritoForm">Vaciar carrito</button>
 </x-modal>
+
+<form id="vaciarCarritoForm" action="{{ route('carrito.vaciar') }}" method="POST" class="hidden">
+    @csrf
+</form>
 
 @endsection
 
@@ -98,14 +100,15 @@
     document.addEventListener('DOMContentLoaded', function() {
         const toggleButtons = document.querySelectorAll('[data-bs-toggle-modal]');
         const closeButtons = document.querySelectorAll('.btn-close');
+        const submitButtons = document.querySelectorAll('.submit-btn');
 
         toggleButtons.forEach(function(button) {
             button.addEventListener('click', function() {
                 const targetModal = document.querySelector(button.getAttribute('data-bs-toggle-modal'));
                 toggleModal(targetModal);
 
-                if (button.dataset.route) {
-                    document.querySelector(button.getAttribute('data-bs-target-form')).action = button.dataset.route;
+                if (button.dataset.boton) {
+                    document.querySelector([button.dataset.boton]).dataset.form = button.dataset.form;
                 }
 
                 if (button.dataset.producto) {
@@ -114,11 +117,19 @@
             });
         });
 
+        submitButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                if (button.dataset.form && button.dataset.form !== '') {
+                    document.querySelector([button.dataset.form]).submit();
+                }
+            });
+        });
+
         closeButtons.forEach(function(button) {
             button.addEventListener('click', function() {
                 const modal = button.closest('.modal');
                 toggleModal(modal);
-                modal.querySelector('form').action = '';
+                document.querySelector('#boton-eliminar').dataset.form = '';
             });
         });
 

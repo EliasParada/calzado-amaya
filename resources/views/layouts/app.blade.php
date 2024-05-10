@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('img/calzado-amaya-color.svg') }}" type="image/x-icon">
     @yield('title')
+    <meta property="og:image" content="https://calzadoamaya.com/img/calzado-amaya-color.svg"/>
+    <meta property="og:title" content="Calzado Amaya" />
+    <meta property="og:description" content="Desarrollador full-stack apasionado por la tecnología." />
+    <meta property="og:url" content="https://efordev.com/" />
+    <meta property="og:type" content="website" />
+    <meta name="keywords" content="Elias Mauricio Parada Lozano, Elías Mauricio Parada Lozano, Elias Parada, Elías Parada, Eryasu, Desarrollador full-stack" />
+
     <script src="https://kit.fontawesome.com/d36239a715.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +52,7 @@
         <div
             class="hidden md:flex md:flex justify-between box-border space-x-4">
             <a href="{{ route('home') }}">Inicio</a>
-            <a href="{{ route('categorias') }}">Catalogo</a>
+            <a href="{{ route('categorias') }}">Catálogo</a>
             <a href="{{ route('promo') }}">Promociones</a>
             <a href="">Sobre Nosotros</a>
             <a href="">Contacto</a>

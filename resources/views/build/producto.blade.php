@@ -86,13 +86,11 @@ $tallas = [
         </form>
     </div>
 
-    <div>
-        Producto agregado
-    </div>
-
+    @if (session('success'))
     <x-notify id="notificacionAgregado" title="¡Producto agregado al carrito!">
-        <p class="mb-4">{{ session('success') }}</p>
+        <p class="">{{ session('success') }}</p>
     </x-notify>
+    @endif
 @endsection
 
 @section('script')
