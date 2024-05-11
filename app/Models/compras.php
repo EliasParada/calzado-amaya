@@ -20,15 +20,20 @@ class compras extends Model
         'fecha_retiro',
         'fecha_envio',
         'ubicacion_envio',
+        'correo',
+        'telefono',
+        'nombres',
+        'apellidos',
         'descuento',
-        'precio_real',
-        'precio_total',
-        'precio_neto',
-        'comision_pagadito',
+        'precio_real', // Precio sin descuento
+        'precio_total', // Precio con descuento
+        'precio_envio', // Precio del envio
+        'precio_neto', // 
+        'comision_pagadito', // Comision por transacción en pagadito
         'estado',
     ];
 
-    public function detalles()
+    public function detalle()
     {
         return $this->hasMany(detalleCompras::class, 'compra_id', 'compra_id');
     }

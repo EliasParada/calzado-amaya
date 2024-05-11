@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\categorias;
 use App\Models\productos;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,29 @@ class categoriasControlador extends Controller
             $query->whereHas('categoria', function ($q) use ($categoriasSeleccionadas) {
                 $q->whereIn('categoria_id', $categoriasSeleccionadas);
             });
+        }
+
+        if ($request->has('ordenar')) {
+            switch ($request->ordenar) {
+                case 'popular':
+                    $query->select('productos.*')
+                        ->leftJoin('detalle_compras', 'productos.producto_id', '=', 'detalle_compras.producto_id')
+                        ->groupBy('productos.producto_id')
+                        ->orderByDesc(DB::raw('COUNT(detalle_compras.producto_id)'))
+                        ->orderBy('nombre');
+                    break;
+                case 'precio':
+                    $query->orderBy('precio_venta');
+                    break;
+                case 'existencias':
+                    $query->orderBy('existencia');
+                    break;
+                default:
+                    $query->orderBy('nombre');
+                    break;
+            }
+        } else {
+            $query->orderBy('nombre');
         }
 
         $productos = $query->paginate(12);

@@ -51,11 +51,20 @@
 
         <div
             class="hidden md:flex md:flex justify-between box-border space-x-4">
-            <a href="{{ route('home') }}">Inicio</a>
-            <a href="{{ route('categorias') }}">Catálogo</a>
-            <a href="{{ route('promo') }}">Promociones</a>
-            <a href="">Sobre Nosotros</a>
-            <a href="">Contacto</a>
+            @if(Auth::check() && Auth::user()->administrador)
+                <a href="{{ route('home') }}">Tablero</a>
+                <a href="{{ route('productos') }}">Productos</a>
+                <a href="{{ route('categorias') }}">Categorías</a>
+                <a href="{{ route('promo') }}">Promociones</a>
+                <a href="">Pedidos</a>
+                <a href="">Anuncios</a>
+            @else
+                <a href="{{ route('home') }}">Inicio</a>
+                <a href="{{ route('categorias') }}">Catálogo</a>
+                <a href="{{ route('promo') }}">Promociones</a>
+                <a href="">Sobre Nosotros</a>
+                <a href="">Contacto</a>
+            @endif
         </div>
 
         <div

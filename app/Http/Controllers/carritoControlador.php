@@ -216,8 +216,36 @@ class carritoControlador extends Pagadito
                     if ($compra) {
                         $compra->update(['estado' => 'COMPLETADO']);
                     }
-                    // return view('build.pago', compact('fecha_cobro', 'numero_aprobacion_pg'));
-                    return view('build.pago');
+                    
+                    $fecha_cobro = $this->pagadito->get_rs_date_trans();
+                    $subtotal = $this->pagadito->get_rs_value()->amount;
+                    return view('build.pago', compact('fecha_cobro', 'subtotal', 'compra'));
+                } else {
+                    // Si el estado es distinto
+                }
+            } else {
+                echo "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message() . "\n";
+            }
+        } else {
+            echo "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message() . "\n";
+        }
+    }
+
+    public function factura(Request $request, $token, $ern)
+    {
+        if($this->pagadito->connect()) {
+            if ($this->pagadito->get_status($token)) {
+                $estado = $this->pagadito->get_rs_status();
+                if ($estado == "COMPLETED") {
+                    $fecha_cobro = $this->pagadito->get_rs_date_trans();
+                    $subtotal = $this->pagadito->get_rs_value()->amount;
+
+                    $compra = compras::where('factura_nombre', $ern)->first();
+                    if ($compra) {
+                        $compra->update(['estado' => 'COMPLETADO', 'fecha_compra' => $fecha_cobro, 'precio_neto' => $subtotal]);
+                    }
+
+                    return view('build.pago', compact('fecha_cobro'));
                 } else {
                     // Si el estado es distinto
                 }

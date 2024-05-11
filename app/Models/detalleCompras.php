@@ -24,4 +24,9 @@ class detalleCompras extends Model
     {
         return $this->belongsTo(compras::class, 'compra_id', 'compra_id');
     }
+
+    public function productos()
+    {
+        return $this->belongsTo(productos::class, 'producto_id', 'producto_id');
+    }
 }

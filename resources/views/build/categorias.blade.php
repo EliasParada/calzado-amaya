@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-<title>Catalogo | {{ config('app.name') }}</title>
+<title>Catálogo | {{ config('app.name') }}</title>
 @endsection
 
 @section('content')
@@ -28,13 +28,18 @@
 
     <div class="w-full md:w-3/4 px-4 flex flex-col items-end">
         <div class="border-2 border-black flex gap-2 w-fit py-2 px-8 cursor-pointer">
-            <p class="text-slate-400 w-auto">Ordenar por </p><b>Popular</b>
+            <p class="text-slate-400 w-auto">Ordenar por </p>
+            <select id="ordenar" class="text-black">
+                <option value="popular">Popular</option>
+                <option value="nombre">Nombre</option>
+                <option value="precio">Precio</option>
+            </select>
         </div>
         <p>Mostrando {{ $productos->count() }} productos</p>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             @forelse($productos as $producto)
             <div class="bg-white p-4 shadow-md rounded-md relative">
-                <a href="{{ route('producto', $producto->producto_id) }}" class="block h-full flex flex-col gap-4 justify-between">
+                <a href="{{ route('producto', $producto->producto_id) }}" class="block h-full w-full flex flex-col gap-4 justify-between relative">
                     @foreach (json_decode($producto->imagenes) as $index => $imagen)
                     @if($index >= 1)
                     @break
@@ -46,6 +51,11 @@
                         <p class="text-gray-600">{{ $producto->categoria->nombre }}</p>
                         <p class="text-gray-600">${{ $producto->precio_venta }}</p>
                     </div>
+                    @if ($producto->existencia <= 0)
+                    <div class="border-2 border-red-500 text-red-500 font-bold text-3xl bg-white/25 p-4 absolute -rotate-45 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                        Agotado
+                    </div>
+                    @endif
                 </a>
             </div>
             @empty
@@ -64,7 +74,7 @@
                     </span>
                 </span>
                 @else
-                <a href="{{ $productos->previousPageUrl() }}" rel="prev" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150">
+                <a href="{{ $productos->appends(['search' => request('search'), 'categorias' => request('categorias'), 'ordenar' => request('ordenar')])->previousPageUrl() }}" rel="prev" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                     </svg>
@@ -77,12 +87,12 @@
                         <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5">{{ $i }}</span>
                     </span>
                     @else
-                        <a href="{{ $productos->url($i) }}"class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150" aria-label="Ir a la página {{ $i }}">{{ $i }}</a>
+                        <a href="{{ $productos->appends(['search' => request('search'), 'categorias' => request('categorias'), 'ordenar' => request('ordenar')])->url($i) }}"class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150" aria-label="Ir a la página {{ $i }}">{{ $i }}</a>
                     @endif
                 @endfor
 
                 @if ($productos->hasMorePages())
-                <a href="{{ $productos->nextPageUrl() }}" rel="next" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="Next &raquo;">
+                <a href="{{ $productos->appends(['search' => request('search'), 'categorias' => request('categorias'), 'ordenar' => request('ordenar')])->nextPageUrl() }}" rel="next" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="Next &raquo;">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                     </svg>
@@ -106,6 +116,11 @@
 
 @section('script')
 <script>
-
+    document.getElementById('ordenar').addEventListener('change', function() {
+        var orden = this.value;
+        var url = new URL(window.location.href);
+        url.searchParams.set('ordenar', orden);
+        window.location.href = url;
+    });
 </script>
 @endsection

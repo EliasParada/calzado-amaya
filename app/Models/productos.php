@@ -30,4 +30,9 @@ class productos extends Model
     {
         return $this->belongsTo(categorias::class, 'categoria_id', 'categoria_id');
     }
+
+    public function detalles()
+    {
+        return $this->hasMany(detalleCompras::class, 'producto_id', 'producto_id');
+    }
 }

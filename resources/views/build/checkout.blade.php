@@ -43,7 +43,7 @@
                 @else
                     <a href="{{ route('register') }}">Registrate para gestionar mejor tus pedidos.</a>
                 @endif
-                <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-full">Continuar</button>
+                <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-full">Continuar al método de envio</button>
             </div>
         </form>
         <div class="w-1/2 p-4">
