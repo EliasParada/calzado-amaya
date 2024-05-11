@@ -53,5 +53,4 @@
             <a href="{{ route('home') }}" class="bg-black text-white px-4 py-2">Volver a la página principal</a>
         </div>
     </div>
-    <a href="{{ route('factura.pdf', $compra->compra_id) }}">Descargar factura PDF</a>
 @endsection
