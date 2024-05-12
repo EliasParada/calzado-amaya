@@ -12,9 +12,9 @@
                 <h3 class="text-xl font-semibold mb-2">Información de contacto</h3>
                 <p>Si tienes alguna pregunta, comentario o sugerencia, no dudes en contactarnos. Estamos aquí para ayudarte.</p>
                 <ul class="mt-4">
-                    <li><strong>Dirección:</strong> Av. Ejemplo #1234, Ciudad Ejemplo</li>
-                    <li><strong>Teléfono:</strong> (123) 456-7890</li>
-                    <li><strong>Correo electrónico:</strong> info@calzadoamaya.com</li>
+                    <li><strong>Instagram:</strong> <a target="_blank" href="https://www.instagram.com/calzadoamaya/">@calzadoamaya <i class="fa-brands fa-instagram"></i></a></li>
+                    <li><strong>Facebook:</strong> <a target="_blank" href="https://www.facebook.com/profile.php?id=61558141000631">Calzado Amaya <i class="fa-brands fa-facebook"></i></a></li>
+                    <li><strong>Correo electrónico:</strong> <a target="_blank" href="mailto:contacto@calzadoamaya.com">contacto@calzadoamaya.com <i class="fa-regular fa-envelope"></i></a></li>
                 </ul>
             </div>
             <div>
