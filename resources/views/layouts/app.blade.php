@@ -62,8 +62,8 @@
                 <a href="{{ route('home') }}">Inicio</a>
                 <a href="{{ route('categorias') }}">Catálogo</a>
                 <a href="{{ route('promo') }}">Promociones</a>
-                <a href="">Sobre Nosotros</a>
-                <a href="">Contacto</a>
+                <a href="{{ route('nosotros') }}">Sobre Nosotros</a>
+                <a href="{{ route('contacto') }}">Contacto</a>
             @endif
         </div>
 

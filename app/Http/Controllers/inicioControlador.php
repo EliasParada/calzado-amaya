@@ -23,7 +23,7 @@ class inicioControlador extends Controller
     }
     public function nosotros()
     {
-        return view('admin.nosotros');
+        return view('build.nosotros');
     }
 
     public function pedidos()
