@@ -30,9 +30,9 @@
         <div class="border-2 border-black flex gap-2 w-fit py-2 px-8 cursor-pointer">
             <p class="text-slate-400 w-auto">Ordenar por </p>
             <select id="ordenar" class="text-black">
-                <option value="popular">Popular</option>
-                <option value="nombre">Nombre</option>
-                <option value="precio">Precio</option>
+                <option value="nombre" {{ request('ordenar') == 'nombre' ? 'selected' : '' }}>Nombre</option>
+                <option value="popular" {{ request('ordenar') == 'popular' ? 'selected' : '' }}>Popular</option>
+                <option value="precio" {{ request('ordenar') == 'precio' ? 'selected' : '' }}>Precio</option>
             </select>
         </div>
         <p>Mostrando {{ $productos->count() }} productos</p>
@@ -49,7 +49,11 @@
                     <div class="flex flex-col gap-2">
                         <h3 class="text-lg font-semibold mb-2">{{ $producto->nombre }}</h3>
                         <p class="text-gray-600">{{ $producto->categoria->nombre }}</p>
-                        <p class="text-gray-600">${{ $producto->precio_venta }}</p>
+                        @if ($producto->descuento)
+                            <p><span class="text-base line-through text-gray-200">${{ $producto->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta) }}</b></p>
+                        @else
+                            <p class="text-gray-600">${{ $producto->precio_venta }}</p>
+                        @endif
                     </div>
                     @if ($producto->existencia <= 0)
                     <div class="border-2 border-red-500 text-red-500 font-bold text-3xl bg-white/25 p-4 absolute -rotate-45 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
@@ -57,6 +61,14 @@
                     </div>
                     @endif
                 </a>
+                @if ($producto->descuento)
+                    <div class="text-2xl flex items-center absolute top-10 right-0 -rotate-45">
+                        <div class="bg-red-500 text-white px-2 py-1 rounded-full mr-2 rotate-45">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <p class="text-red-500 font-bold">${{ $producto->descuento->descuento * 100 }}%</p>
+                    </div>
+                @endif
             </div>
             @empty
             <span class="m-auto col-span-2 w-full text-center">No se han encontrado productos @if ($_GET['search']) de la busqueda <b>"{{ $_GET['search'] }}"</b> @endif</span>

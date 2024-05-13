@@ -35,4 +35,9 @@ class productos extends Model
     {
         return $this->hasMany(detalleCompras::class, 'producto_id', 'producto_id');
     }
+
+    public function descuento()
+    {
+        return $this->hasOne(promosiones::class, 'producto_id', 'producto_id');
+    }
 }

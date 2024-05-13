@@ -25,12 +25,12 @@ class compras extends Model
         'nombres',
         'apellidos',
         'descuento',
-        'precio_real', // Precio sin descuento
-        'precio_total', // Precio con descuento
+        'precio_total', // Precio total sin envio
         'precio_envio', // Precio del envio
-        'precio_neto', // 
+        'precio_neto', // Envio y total
         'comision_pagadito', // Comision por transacción en pagadito
         'estado',
+        'detalles',
     ];
 
     public function detalle()

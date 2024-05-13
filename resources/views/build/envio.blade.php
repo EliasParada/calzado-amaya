@@ -11,6 +11,14 @@
     <div class="container mx-auto flex justify-around">
         <form action="{{ route('cobrar') }}" method="POST" class="w-1/2 pl-4 flex items-start justify-start flex-col">
             @csrf
+            <input type="hidden" id="envio" name="envio" required class="hidden" value="9">
+            <input type="hidden" id="nombre" name="nombre" required class="hidden" value="{{$contacto['nombre']}}">
+            <input type="hidden" id="apellido" name="apellido" required class="hidden" value="{{$contacto['apellido']}}">
+            <input type="hidden" id="telefono" name="telefono" required class="hidden" value="{{$contacto['telefono']}}">
+            <input type="hidden" id="correo" name="correo" required class="hidden" value="{{$contacto['correo']}}">
+            <input type="hidden" id="direccion" name="direccion" required class="hidden" value="{{$contacto['direccion']}}">
+            <textarea id="detalle" name="detalle" class="hidden">{{$contacto['detalle']}}</textarea>
+
             <h2 class="text-xl font-bold mb-4">Resumen del pedido</h2>
             <div class="w-full flex flex-col gap-2">
                 <div class="mb-4 border-2 border-black flex gap-4 items-center">
@@ -30,20 +38,24 @@
                 <div class="overflow-x-auto w-full">
                     @foreach($carrito as $item)
                     <div class="flex gap-4 justify-start w-full">
-                        <a href="{{ route('producto', $item['producto_id']) }}" class="flex items-center justify-center w-1/3">
+                        <a href="{{ route('producto', $item['producto_id']) }}" class="flex items-center justify-center w-1/3 relative">
                             @foreach (json_decode($item['imagenes']) as $index => $imagen)
                                 @if($index >= 1)
                                     @break
                                 @endif
                                 <img src="{{ asset('imagenes/' . $imagen) }}" alt="{{ $item['nombre'] }}" class="w-28 h-auto mr-2">
                             @endforeach
+                            <div class="absolute bg-gray-400 text-white font-bold rounded-lg p-2 top-0 right-0">
+                                {{ $item['cantidad'] }}
+                            </div>
                         </a>
-                        <div class="flex flex-col w-2/3">
-                            <h3 class="text-md font-bold">{{ $item['nombre'] }}</h3>
-                            <h3 class="text-sm">Talla: {{ $item['talla'] }}</h3>
-                            <h3 class="text-sm">Color: {{ $item['color'] }}</h3>
-                            <h3 class="text-sm">Cantidad: {{ $item['cantidad'] }}</h3>
-                            <h3 class="font-bold">${{ $item['precio_unidad'] * $item['cantidad'] }}</h3>
+                        <div class="flex flex-col w-full">
+                            <h3 class="text-xl font-bold">{{ $item['nombre'] }}</h3>
+                            <h3 class="">Talla: {{ $item['talla'] }}</h3>
+                            <h3 class="">Color: {{ $item['color'] }}</h3>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">${{ $item['precio_unidad'] * $item['cantidad'] }}</h3>
                         </div>
                     </div>
                     @endforeach

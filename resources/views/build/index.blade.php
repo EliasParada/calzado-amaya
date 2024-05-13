@@ -47,18 +47,20 @@
     <p class="text-4xl font-semibold mb-4">Productos Destacados</p>
         <p class="text-lg text-gray-600 md:w-2/3">Echa un vistazo a nuestros productos mas solicitados, viste a la moda con las tendecias de los demas.</p>
     
-    <a href="{{ route('categorias') }}" class="inline-block text-black bg-white px-8 py-3 border-2 border-black shadow-md hover:bg-gray-200 active:bg-black active:text-white transition duration-300">Ver más</a>
+    <a href="{{ route('categorias') }}?ordenar=popular" class="inline-block text-black bg-white px-8 py-3 border-2 border-black shadow-md hover:bg-gray-200 active:bg-black active:text-white transition duration-300">Ver más</a>
 
     <div class="flex flex-wrap w-full justify-evenly gap-8 mb-12">
-        @foreach($categorias as $index => $categoria)
-            @if($index >= 3)
-                @break
-            @endif
-            <a href="" class="max-w-xs rounded-lg w-1/4 overflow-hidden shadow-md">
-                <img src="{{ asset('img/categoria1.jpg') }}" alt="Categoria 1" class="w-full">
+        @foreach($productosMasVendidos as $index => $producto)
+            <a href="{{ route('producto', $producto->producto_id) }}" class="max-w-xs rounded-lg w-1/4 overflow-hidden shadow-md relative">
+                <img src="{{ asset('imagenes/' . json_decode($producto->imagenes)[0]) }}" alt="{{ $producto->nombre }}" class="w-full">
                 <div class="p-4">
-                    <p class="text-lg font-semibold mb-2">{{ $categoria->nombre }}</p>
+                    <p class="text-lg font-semibold mb-2">{{ $producto->nombre }}</p>
                 </div>
+                @if ($producto->existencia <= 0)
+                    <div class="border-2 border-red-500 text-red-500 font-bold text-3xl bg-white/25 p-4 absolute -rotate-45 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                        Agotado
+                    </div>
+                @endif
             </a>
         @endforeach
     </div>

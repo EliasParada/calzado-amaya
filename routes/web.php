@@ -25,10 +25,6 @@ Route::post('logout', [App\Http\Controllers\Auth\logoutControlador::class, 'logo
 
 Route::get('{nombre_usuario}/pedidos', [App\Http\Controllers\inicioControlador::class, 'pedidos'])->name('historial.pedidos');
 
-Route::get('promociones', function () {
-    return view('build/promo');
-})->name('promo');
-
 Route::get('carrito', [App\Http\Controllers\carritoControlador::class, 'index'])->name('carrito');
 Route::post('carrito', [App\Http\Controllers\carritoControlador::class, 'store'])->name('carrito.store');
 Route::post('carrito/vaciar', [App\Http\Controllers\carritoControlador::class, 'destroy'])->name('carrito.vaciar');
@@ -45,9 +41,18 @@ Route::post('categorias/{categoria_id}', [App\Http\Controllers\categoriasControl
 Route::delete('categorias/{categoria_id}', [App\Http\Controllers\categoriasControlador::class, 'destroy'])->name('categorias.destroy');
 Route::get('/categorias/filtrar', [App\Http\Controllers\categoriasControlador::class, 'filtrar'])->name('categorias.filtrar');
 
-
 Route::get('producto/{producto_id}', [App\Http\Controllers\productosControlador::class, 'show'])->name('producto');
 Route::get('productos', [App\Http\Controllers\productosControlador::class, 'index'])->name('productos');
 Route::post('productos', [App\Http\Controllers\productosControlador::class, 'store'])->name('productos.store');
 Route::post('productos/{producto_id}', [App\Http\Controllers\productosControlador::class, 'update'])->name('productos.update');
 Route::delete('productos/{producto_id}', [App\Http\Controllers\productosControlador::class, 'destroy'])->name('productos.destroy');
+
+Route::get('promociones', [App\Http\Controllers\promoControlador::class, 'index'])->name('promo');
+Route::post('promociones', [App\Http\Controllers\promoControlador::class, 'store'])->name('promo.store');
+Route::post('promociones/{promocion_id}', [App\Http\Controllers\promoControlador::class, 'update'])->name('promo.update');
+Route::delete('promociones/{promocion_id}', [App\Http\Controllers\promoControlador::class, 'destroy'])->name('promo.destroy');
+
+Route::get('anuncios', [App\Http\Controllers\promoControlador::class, 'index'])->name('promo');
+Route::post('anuncios', [App\Http\Controllers\promoControlador::class, 'store'])->name('promo.store');
+Route::post('anuncios/{anuncio_id}', [App\Http\Controllers\promoControlador::class, 'update'])->name('promo.update');
+Route::delete('anuncios/{anuncio_id}', [App\Http\Controllers\promoControlador::class, 'destroy'])->name('promo.destroy');

@@ -55,6 +55,14 @@ class carritoControlador extends Pagadito
 
         $producto = productos::find($producto_id);
 
+        $precio = $producto->precio_venta;;
+        $nombre = $producto->nombre;
+
+        if ($producto->descuento) {
+            $nombre = $producto->nombre . " -" . ($producto->descuento->descuento * 100) . "%";
+            $precio = $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta);
+        }
+
         if ($cantidad < 1) {
             return redirect()->back()->with('error', 'La cantidad debe ser al menos 1');
         }
@@ -78,8 +86,8 @@ class carritoControlador extends Pagadito
 
         $producto = [
             'producto_id' => $producto_id,
-            'nombre' => $producto->nombre,
-            'precio_unidad' => $producto->precio_venta,
+            'nombre' => $nombre,
+            'precio_unidad' => $precio,
             'imagenes' => $producto->imagenes,
             'cantidad' => $cantidad,
             'color' => $request->color,
@@ -123,7 +131,7 @@ class carritoControlador extends Pagadito
         return redirect()->back()->with('success', 'El carrito se ha vaciado correctamente');
     }
 
-    public function envio() {
+    public function envio(Request $request) {
         $carrito = session()->get('carrito', []);
 
         foreach ($carrito as $key => $item) {
@@ -138,7 +146,7 @@ class carritoControlador extends Pagadito
         return view('build.checkout', ['carrito' => $carrito, 'subtotal' => $subtotal]);
     }
 
-    public function enviar() {
+    public function enviar(Request $request) {
         $carrito = session()->get('carrito', []);
         
         foreach ($carrito as $key => $item) {
@@ -150,10 +158,10 @@ class carritoControlador extends Pagadito
             return $item['precio_unidad'] * $item['cantidad'];
         }, $carrito));
 
-        return view('build.envio', ['carrito' => $carrito, 'subtotal' => $subtotal]);
+        return view('build.envio', ['carrito' => $carrito, 'subtotal' => $subtotal, 'contacto' => $request->all()]);
     }
 
-    public function cobrar()
+    public function cobrar(Request $request)
     {
         $carrito = session()->get('carrito', []);
 
@@ -163,7 +171,7 @@ class carritoControlador extends Pagadito
             $precioTotal += $item['precio_unidad'] * $item['cantidad'];
         }
 
-        $precioNeto = $precioTotal - $descuentoTotal;
+        $precioNeto = $precioTotal - $request->envio;
         $comisionPagadito = $precioNeto * 0.05 + 0.25;
 
         $fechaHora = date('YmdHis');
@@ -171,15 +179,20 @@ class carritoControlador extends Pagadito
         $ern = "CA-FACTURA-$fechaHora-$numeroAleatorio";
         
         $compra = compras::create([
+            'usuario_id' => Auth::check() ? Auth::user()->usuario_id : NULL,
             'factura_nombre' => $ern,
             'fecha_compra' => date('Y-m-d H:i:s'),
-            'ubicacion_envio' => 'Aqui',
+            'ubicacion_envio' => $request->direccion,
+            'correo' => $request->correo,
+            'telefono' => $request->telefono,
+            'nombres' => $request->nombre,
+            'apellidos' => $request->apellido,
             'descuento' => $descuentoTotal,
-            'precio_real' => 0,
             'precio_total' => $precioTotal,
             'precio_neto' => $precioNeto,
             'comision_pagadito' => $comisionPagadito,
             'estado' => 'PENDIENTE',
+            'detalles' => $request->detalle,
         ]);
 
         if($this->pagadito->connect()) {

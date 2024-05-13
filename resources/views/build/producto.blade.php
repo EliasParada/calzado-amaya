@@ -31,7 +31,11 @@ $tallas = [
             <div class="w-2/4 p-4 flex flex-col gap-4">
                 <div class="flex flex-col">
                     <h2 class="text-3xl font-bold">{{ $producto->nombre }}</h2>
-                    <span class="text-gray-600">${{ $producto->precio_venta }}</span>
+                    @if ($producto->descuento)
+                        <p><span class="text-base line-through text-gray-200">${{ $producto->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta) }}</b></p>
+                    @else
+                        <p class="text-gray-600">${{ $producto->precio_venta }}</p>
+                    @endif
                 </div>
 
                 <p class="font-lg">{{ $producto->descripcion }}</p>
@@ -68,7 +72,16 @@ $tallas = [
                 <p class="text-gray-600">Existencia: {{ $producto->existencia }}</p>
                 <div class="w-full flex gap-4 justify-between items-end">
                     @if($producto->existencia > 0)
-                        <button class="w-2/4 text-bacl px-4 py-2 border-2 border-black hover:bg-black hover:text-white text-nowrap w-auto">Agregar al carrito <b id="precio" class="font-mono" data-precio="{{ $producto->precio_venta }}">${{ $producto->precio_venta }}</b></button>
+                        <button class="w-2/4 text-bacl px-4 py-2 border-2 border-black hover:bg-black hover:text-white text-nowrap w-auto">Agregar al carrito <b id="precio" class="font-mono" 
+                            data-precio="@if ($producto->descuento)
+                                    {{ $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta) }}
+                                @else
+                                    {{ $producto->precio_venta }}
+                                @endif">@if ($producto->descuento)
+                                    ${{ $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta) }}
+                                @else
+                                    ${{ $producto->precio_venta }}
+                                @endif</b></button>
                     @else
                         <button class="w-2/4 text-bacl px-4 py-2 border-2 border-gray-400 cursor-not-allowed opacity-50">Agotado</button>
                     @endif
