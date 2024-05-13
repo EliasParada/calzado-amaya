@@ -51,6 +51,9 @@
 
     <div class="flex flex-wrap w-full justify-evenly gap-8 mb-12">
         @foreach($productosMasVendidos as $index => $producto)
+            @if($index >= 3)
+                @break
+            @endif
             <a href="{{ route('producto', $producto->producto_id) }}" class="max-w-xs rounded-lg w-1/4 overflow-hidden shadow-md relative">
                 <img src="{{ asset('imagenes/' . json_decode($producto->imagenes)[0]) }}" alt="{{ $producto->nombre }}" class="w-full">
                 <div class="p-4">
