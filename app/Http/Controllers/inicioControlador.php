@@ -25,7 +25,7 @@ class inicioControlador extends Controller
         //     ->get();
 
         
-        $productosMasVendidos = productos::all()->limit(3);
+        $productosMasVendidos = productos::limit(3)->all();
         return view('build.index', compact('categorias', 'productosMasVendidos'));
     }
     public function contacto()
