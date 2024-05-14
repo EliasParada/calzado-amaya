@@ -270,32 +270,40 @@ class carritoControlador extends Pagadito
         }
     }
 
-    public function actualizarCantidad(Request $request)
+    public function incrementar(Request $request, $productoId)
     {
-        $productoId = $request->input('productId');
-        $nuevaCantidad = $request->input('newValue');
+        return $this->actualizarCantidad($request, $productoId, 1);
+    }
 
+    public function decrementar(Request $request, $productoId)
+    {
+        return $this->actualizarCantidad($request, $productoId, -1);
+    }
+
+    private function actualizarCantidad(Request $request, $productoId, $incremento)
+    {
         // Verificar si el producto existe en el carrito
         $carrito = session()->get('carrito', []);
         $productoEnCarrito = collect($carrito)->firstWhere('producto_id', $productoId);
 
         if (!$productoEnCarrito) {
-            return response()->json(['error' => 'El producto no se encuentra en el carrito'], 404);
+            return redirect()->back()->with(['error' => 'El producto no se encuentra en el carrito'], 404);
         }
 
         // Verificar si la nueva cantidad es válida
         $producto = productos::find($productoId);
         if (!$producto) {
-            return response()->json(['error' => 'El producto seleccionado no existe'], 404);
+            return redirect()->back()->with(['error' => 'El producto seleccionado no existe'], 404);
         }
-        if ($nuevaCantidad < 1 || $nuevaCantidad > $producto->existencia) {
-            return response()->json(['error' => 'La cantidad no es válida'], 400);
+        $cantidadNueva = $productoEnCarrito['cantidad'] + $incremento;
+        if ($cantidadNueva < 1 || $cantidadNueva > $producto->existencia) {
+            return redirect()->back()->with(['error' => 'La cantidad no es válida'], 400);
         }
 
         // Actualizar la cantidad del producto en el carrito
         foreach ($carrito as &$item) {
             if ($item['producto_id'] == $productoId) {
-                $item['cantidad'] = $nuevaCantidad;
+                $item['cantidad'] += $incremento;
                 break;
             }
         }
@@ -306,6 +314,6 @@ class carritoControlador extends Pagadito
             return $item['precio_unidad'] * $item['cantidad'];
         }, $carrito));
 
-        return response()->json(['success' => 'Cantidad actualizada en el carrito', 'subtotal' => $subtotal]);
+        return redirect()->back()->with(['success' => 'Cantidad actualizada en el carrito', 'subtotal' => $subtotal]);
     }
 }

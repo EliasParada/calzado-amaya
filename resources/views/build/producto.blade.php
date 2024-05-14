@@ -47,7 +47,7 @@ $tallas = [
                             @foreach ($grupo as $tallaIndex => $talla)
                                 @if ($producto->tallas && in_array($talla, json_decode($producto->tallas)))
                                     <input type="radio" id="tallas-{{ $grupoIndex }}-{{ $tallaIndex }}" name="talla" value="{{ $talla }}" class="mr-2 hidden" @if($checkedAlready) checked @php $checkedAlready = false; @endphp @endif>
-                                    <label for="tallas-{{ $grupoIndex }}-{{ $tallaIndex }}" class="flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">
+                                    <label for="tallas-{{ $grupoIndex }}-{{ $tallaIndex }}" class="select-none flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">
                                         <span>{{ $talla }}</span>
                                     </label>
                                 @endif
@@ -62,7 +62,7 @@ $tallas = [
                         @foreach ($colores as $index => $color)
                             @if ($producto->colores && in_array($color, json_decode($producto->colores)))
                                 <input type="radio" id="color-{{ $index }}" name="color" value="{{ $color }}" class="mr-2 hidden" @if($checkedAlready) checked @php $checkedAlready = false; @endif>
-                                <label for="color-{{ $index }}" class="flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">
+                                <label for="color-{{ $index }}" class="select-none flex items-center block border-2 border-black text-black py-2 px-4 hover:bg-black hover:text-white cursor-pointer">
                                     <span>{{ $color }}</span>
                                 </label>
                             @endif
@@ -72,7 +72,7 @@ $tallas = [
                 <p class="text-gray-600">Existencia: {{ $producto->existencia }}</p>
                 <div class="w-full flex gap-4 justify-between items-end">
                     @if($producto->existencia > 0)
-                        <button class="w-2/4 text-bacl px-4 py-2 border-2 border-black hover:bg-black hover:text-white text-nowrap w-auto">Agregar al carrito <b id="precio" class="font-mono" 
+                        <button class="select-none w-2/4 text-bacl px-4 py-2 border-2 border-black hover:bg-black hover:text-white text-nowrap w-auto">Agregar al carrito <b id="precio" class="font-mono" 
                             data-precio="@if ($producto->descuento)
                                     {{ $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta) }}
                                 @else
@@ -83,15 +83,15 @@ $tallas = [
                                     ${{ $producto->precio_venta }}
                                 @endif</b></button>
                     @else
-                        <button class="w-2/4 text-bacl px-4 py-2 border-2 border-gray-400 cursor-not-allowed opacity-50">Agotado</button>
+                        <span class="w-2/4 text-black text-center select-none px-4 py-2 border-2 border-gray-400 cursor-not-allowed opacity-50">Agotado</span>
                     @endif
-                    <div class="w-1/4 flex flex-col gap-2">
+                    <div class="w-auto flex flex-col gap-2">
                         <p>Cantidad</p>
                         <input type="number" id="quantity" name="cantidad" class="hidden" min="1" max="{{ $producto->existencia }}" value="1" readonly>
                         <div class="flex gap-2 justify-between items-center w-auto">
-                            <div class="p-2 border-black border-2 cursor-pointer" onclick="decrement()">-</div>
-                            <div class="border-black border-2 border-black p-2 w-auto font-mono" id="cantidad-valor">1</div>
-                            <div class="p-2 border-black border-2 cursor-pointer" onclick="increment()">+</div>
+                            <div class="select-none p-2 border-black border-2 cursor-pointer" onclick="decrement()">-</div>
+                            <div class="select-none border-black border-2 border-black p-2 w-auto font-mono" id="cantidad-valor">1</div>
+                            <div class="select-none p-2 border-black border-2 cursor-pointer" onclick="increment()">+</div>
                         </div>
                     </div>
                 </div>

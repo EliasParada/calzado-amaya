@@ -15,6 +15,7 @@ class inicioControlador extends Controller
     public function index()
     {
         $categorias = categorias::all();
+        $carrito = session()->get('carrito', []);
         if (Auth::check() && Auth::user()->administrador) {
             return view('admin.index', compact('categorias'));
         }
@@ -33,7 +34,7 @@ class inicioControlador extends Controller
             ->limit(3)
             ->get();
         
-        return view('build.index', compact('categorias', 'productosMasVendidos', 'promociones'));
+        return view('build.index', compact('categorias', 'productosMasVendidos', 'promociones', 'carrito'));
     }
     public function contacto()
     {
@@ -42,15 +43,5 @@ class inicioControlador extends Controller
     public function nosotros()
     {
         return view('build.nosotros');
-    }
-
-    public function pedidos()
-    {
-        // $categorias = categorias::all();
-        if (Auth::check() && Auth::user()->administrador) {
-            // return view('admin.index', compact('categorias'));
-        }
-
-        return view('build.pagos');
     }
 }

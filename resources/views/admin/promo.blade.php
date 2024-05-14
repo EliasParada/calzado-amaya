@@ -120,7 +120,7 @@
             <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha de finalización de la promoción:</label>
             <input type="date" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="fecha_fin" name="fecha_fin" required>
         </div>
-        <button type="submit" class="px-4 py-2 text-black border-2 border-black hover:bg-black hover:text-white">Agregar promociones</button>
+        <button type="submit" class="px-4 py-2 text-black border-2 border-black hover:bg-black hover:text-white">Agregar promoción</button>
     </form>
 </x-modal>
 @endsection

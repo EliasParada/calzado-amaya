@@ -56,8 +56,8 @@
                 <a href="{{ route('productos') }}">Productos</a>
                 <a href="{{ route('categorias') }}">Categorías</a>
                 <a href="{{ route('promo') }}">Promociones</a>
-                <a href="">Pedidos</a>
-                <a href="">Anuncios</a>
+                <a href="{{ route('pedidos') }}">Pedidos</a>
+                <!-- <a href="">Anuncios</a> -->
             @else
                 <a href="{{ route('home') }}">Inicio</a>
                 <a href="{{ route('categorias') }}">Catálogo</a>
@@ -71,16 +71,27 @@
             class="hidden md:flex justify-between box-border space-x-4 items-end">
             <form action="/categorias/" method="GET" class="flex items-end justify-between gap-2">
                 <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-gray-600 placeholder-gray-600 px-4 py-2 w-24 outline-none">
-                <button type="submit">
+                <button type="submit" class="text-xl">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <a href="/carrito/">
+            <a href="/carrito/" class="text-xl relative">
                 <i class="fas fa-shopping-bag"></i>
+                @php
+                    $totalProductos = 0;
+                    if($carrito) {
+                        foreach ($carrito as $producto) {
+                            $totalProductos += $producto['cantidad'];
+                        }
+                    }
+                @endphp
+                @if($carrito && $totalProductos > 0)
+                    <span class="absolute -top-1 -right-3 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs"> {{ $totalProductos }} </span>
+                @endif
             </a>
             @if(Auth::check())
                 <div class="relative">
-                    <button class="account-btn focus:outline-none">
+                    <button class="account-btn focus:outline-none text-xl">
                         <i class="fas fa-user"></i> Cuenta
                     </button>
                     <ul class="account-menu absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg overflow-hidden hidden">

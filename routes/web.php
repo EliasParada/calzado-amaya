@@ -23,17 +23,22 @@ Route::post('login', [App\Http\Controllers\Auth\loginControlador::class, 'login'
 Route::post('register', [App\Http\Controllers\Auth\registerControlador::class, 'register'])->name('register.new');
 Route::post('logout', [App\Http\Controllers\Auth\logoutControlador::class, 'logout'])->name('logout');
 
-Route::get('{nombre_usuario}/pedidos', [App\Http\Controllers\inicioControlador::class, 'pedidos'])->name('historial.pedidos');
+Route::get('{nombre_usuario}/pedidos', [App\Http\Controllers\comprasControlador::class, 'index'])->name('historial.pedidos');
 
 Route::get('carrito', [App\Http\Controllers\carritoControlador::class, 'index'])->name('carrito');
 Route::post('carrito', [App\Http\Controllers\carritoControlador::class, 'store'])->name('carrito.store');
 Route::post('carrito/vaciar', [App\Http\Controllers\carritoControlador::class, 'destroy'])->name('carrito.vaciar');
 Route::post('carrito/{producto_id}', [App\Http\Controllers\carritoControlador::class, 'update'])->name('carrito.eliminar');
-Route::post('cobrar', [App\Http\Controllers\carritoControlador::class, 'cobrar'])->name('cobrar');
 Route::post('verificar/envio', [App\Http\Controllers\carritoControlador::class, 'envio'])->name('envio');
 Route::post('verificar/envio/metodo', [App\Http\Controllers\carritoControlador::class, 'enviar'])->name('checkout.envio');
-Route::post('/carrito/actualizar/cantidad', [App\Http\Controllers\carritoControlador::class, 'actualizarCantidad'])->name('actualizar.cantidad');
+Route::post('/carrito/incrementar/{productoId}', [App\Http\Controllers\carritoControlador::class, 'incrementar'])->name('carrito.incrementar');
+Route::post('/carrito/decrementar/{productoId}', [App\Http\Controllers\carritoControlador::class, 'decrementar'])->name('carrito.decrementar');
+
+Route::post('cobrar', [App\Http\Controllers\carritoControlador::class, 'cobrar'])->name('cobrar');
 Route::get('pagos/estado/token/{token}/comprobante/{ern}', [App\Http\Controllers\carritoControlador::class, 'verificar'])->name('pagos.verificar');
+
+Route::get('/pedidos', [App\Http\Controllers\comprasControlador::class, 'index'])->name('pedidos');
+Route::put('/pedidos/{pedido_id}', [App\Http\Controllers\comprasControlador::class, 'update'])->name('pedidos.update');
 
 Route::get('categorias', [App\Http\Controllers\categoriasControlador::class, 'index'])->name('categorias');
 Route::post('categorias', [App\Http\Controllers\categoriasControlador::class, 'store'])->name('categorias.store');

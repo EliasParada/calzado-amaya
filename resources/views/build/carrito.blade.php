@@ -30,9 +30,15 @@
                             <h3 class="">
                                 <input type="number" id="quantity" name="cantidad" class="hidden" min="1" max="{{ $item['cantidad_disponible'] }}" value="{{ $item['cantidad'] }}" value="1" readonly>
                                 <div class="flex gap-2 justify-start items-center">
-                                    <div class="p-2 border-black border-2 cursor-pointer" onclick="decrement({{ $item['producto_id'] }})" id="decrement-btn-{{ $item['producto_id'] }}">-</div>
+                                    <form action="{{ route('carrito.decrementar', $item['producto_id']) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="p-2 border-black border-2 cursor-pointer">-</button>
+                                    </form>
                                     <div class="border-black border-2 border-black p-2 w-8" id="cantidad-valor-{{ $item['producto_id'] }}">{{ $item['cantidad'] }}</div>
-                                    <div class="p-2 border-black border-2 cursor-pointer" onclick="increment({{ $item['producto_id'] }})" id="increment-btn-{{ $item['producto_id'] }}">+</div>
+                                    <form action="{{ route('carrito.incrementar', $item['producto_id']) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="p-2 border-black border-2 cursor-pointer">+</button>
+                                    </form>
                                 </div>
                             </h3>
                         </div>

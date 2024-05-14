@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\compras;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class comprasControlador extends Controller
@@ -12,7 +13,13 @@ class comprasControlador extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::check() && Auth::user()->administrador) {
+            $pedidos = compras::all();
+            return view('admin.pedidos', compact('pedidos'));
+        }
+        $pedidos = compras::where('usuario_id', Auth::user()->usuario_id)->get();
+
+        return view('build.pagos', compact('pedidos'));
     }
 
     /**
@@ -26,7 +33,7 @@ class comprasControlador extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $compra_id)
     {
         //
     }
@@ -50,9 +57,17 @@ class comprasControlador extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, compras $compras)
+    public function update(Request $request, compras $compras, $compra_id)
     {
-        //
+        $pedido = compras::findOrFail($compra_id);
+
+        $pedido->estado = $request->input('estado');
+        $pedido->fecha_envio = $request->input('fecha_envio');
+        $pedido->fecha_retiro = $request->input('fecha_retiro');
+
+        $pedido->save();
+
+        return redirect()->back()->with('success', 'Pedido actualizado exitosamente.');
     }
 
     /**

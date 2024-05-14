@@ -40,10 +40,10 @@
                     <textarea type="text" id="detalle" name="detalle" class="w-full px-3 py-2 border-2 border-black focus:outline-none focus:ring focus:ring-main-yellow"></textarea>
                 </div>
                 @if (Auth::check())
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                     <input type="checkbox" name="datos_contacto" id="contacto">
                     <label for="contacto">Guardar información de contacto</label>
-                    </div>
+                    </div> -->
                 @else
                     <a href="{{ route('register') }}">Registrate para gestionar mejor tus pedidos.</a>
                 @endif
