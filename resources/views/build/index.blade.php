@@ -51,9 +51,6 @@
 
     <div class="flex flex-wrap w-full justify-evenly gap-8 mb-12">
         @foreach($productosMasVendidos as $index => $producto)
-            @if($index >= 3)
-                @break
-            @endif
             <a href="{{ route('producto', $producto->producto_id) }}" class="max-w-xs rounded-lg w-1/4 overflow-hidden shadow-md relative">
                 <img src="{{ asset('imagenes/' . json_decode($producto->imagenes)[0]) }}" alt="{{ $producto->nombre }}" class="w-full">
                 <div class="p-4">
@@ -73,17 +70,28 @@
     <p class="text-4xl font-semibold mb-4">Promociones</p>
     <p class="text-lg md:w-2/3">Ofertas especiales para ti, ahorra hasta un 25% en tus compras.</p>
     
-    <a href="{{ route('categorias') }}" class="inline-block text-black bg-white px-8 py-3 border-2 border-black shadow-md hover:bg-gray-200 active:bg-black active:text-white transition duration-300">Ver más</a>
+    <a href="{{ route('promo') }}" class="inline-block text-black bg-white px-8 py-3 border-2 border-black shadow-md hover:bg-gray-200 active:bg-black active:text-white transition duration-300">Ver más</a>
 
     <div class="flex flex-wrap w-full justify-evenly gap-8 mb-12">
-        @foreach($categorias as $index => $categoria)
-            @if($index >= 3)
-                @break
-            @endif
-            <a href="" class="max-w-xs rounded-lg w-1/4 overflow-hidden shadow-md">
-                <img src="{{ asset('img/categoria1.jpg') }}" alt="Categoria 1" class="w-full">
+        @foreach($promociones as $index => $promocion)
+            <a href="{{ route('producto', $promocion->productos->producto_id) }}" class="max-w-xs rounded-lg w-1/4 overflow-hidden shadow-md relative">
+                <img src="{{ asset('imagenes/' . json_decode($promocion->productos->imagenes)[0]) }}" alt="{{ $promocion->productos->nombre }}" class="w-full">
                 <div class="p-4">
-                    <p class="text-lg font-semibold mb-2">{{ $categoria->nombre }}</p>
+                    <p class="text-lg font-semibold mb-2">{{ $promocion->productos->categoria->nombre }}</p>
+                    <div class="flex flex-col">
+                        <h2 class="text-3xl font-bold">{{ $promocion->productos->nombre }}</h2>
+                        @if ($promocion->descuento)
+                            <p><span class="text-base line-through text-gray-400">${{ $promocion->productos->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ $promocion->productos->precio_venta - ($promocion->descuento * $promocion->productos->precio_venta) }}</b></p>
+                        @else
+                            <p class="text-gray-600">${{ $promocion->productos->precio_venta }}</p>
+                        @endif
+                    </div>
+                </div>
+                <div class="text-2xl flex items-center absolute top-10 right-0 -rotate-45">
+                    <div class="bg-red-500 text-white px-2 py-1 rounded-full mr-2 rotate-45">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <p class="text-red-500 font-bold">${{ $promocion->descuento * 100 }}%</p>
                 </div>
             </a>
         @endforeach

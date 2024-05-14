@@ -50,7 +50,7 @@
                         <h3 class="text-lg font-semibold mb-2">{{ $producto->nombre }}</h3>
                         <p class="text-gray-600">{{ $producto->categoria->nombre }}</p>
                         @if ($producto->descuento)
-                            <p><span class="text-base line-through text-gray-200">${{ $producto->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta) }}</b></p>
+                            <p><span class="text-base line-through text-gray-400">${{ $producto->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta) }}</b></p>
                         @else
                             <p class="text-gray-600">${{ $producto->precio_venta }}</p>
                         @endif
