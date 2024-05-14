@@ -19,7 +19,7 @@ class inicioControlador extends Controller
             return view('admin.index', compact('categorias'));
         }
 
-        $productosMasVendidos = productos::select('productos.producto_id', 'productos.nombre', 'productos.descripcion', 'productos.imagenes', 'productos.precio_venta', 'productos.existencia', DB::raw('SUM(detalle_compras.cantidad) as total_vendido'))
+        $productosMasVendidos = productos::select('productos.producto_id', 'productos.nombre', 'productos.descripcion', 'productos.imagenes', 'productos.precio_venta', DB::raw('SUM(detalle_compras.cantidad) as total_vendido'))
             ->join('detalle_compras', 'productos.producto_id', '=', 'detalle_compras.producto_id')
             ->groupBy('productos.producto_id', 'productos.nombre', 'productos.descripcion', 'productos.imagenes', 'productos.precio_venta', 'productos.imagenes')
             ->orderByDesc('total_vendido')
