@@ -28,4 +28,9 @@ class usuarios extends Authenticatable
     {
         return $this->hasOne(administradores::class, 'usuario_id');
     }
+
+    public function puntos()
+    {
+        return $this->hasOne(puntosUsuarios::class, 'usuario_id');
+    }
 }

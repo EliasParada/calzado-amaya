@@ -195,6 +195,12 @@ class carritoControlador extends Pagadito
             'detalles' => $request->detalle,
         ]);
 
+        if ($precioNeto >= 20 && $precioNeto <= 25) {
+
+        } else if ($precioNeto > 25) {
+            
+        }
+
         if($this->pagadito->connect()) {
             foreach ($carrito as $item) {
                 if (
@@ -210,6 +216,8 @@ class carritoControlador extends Pagadito
                 }
                 $this->pagadito->add_detail($item['cantidad'], $item['nombre'], $item['precio_unidad']);
             }
+            $this->pagadito->add_detail(1, 'Envio Cargo Expreso', 9.50);
+
 
             if (!$this->pagadito->exec_trans($ern)) {
                 return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
