@@ -37,7 +37,7 @@ class categoriasControlador extends Controller
                 case 'popular':
                     $query->select('productos.*')
                         ->leftJoin('detalle_compras', 'productos.producto_id', '=', 'detalle_compras.producto_id')
-                        ->groupBy('productos.producto_id', 'productos.categoria_id', 'productos.nombre', 'productos.descripcion', 'productos.precio_venta', 'productos.imagenes', 'productos.codigo', 'productos.colores', 'productos.tallas',  'productos.existencia')
+                        ->groupBy('productos.producto_id', 'productos.categoria_id', 'productos.nombre', 'productos.descripcion', 'productos.precio_venta', 'productos.imagenes', 'productos.codigo', 'productos.colores', 'productos.tallas',  'productos.existencia',  'productos.precio_compra')
                         ->orderByDesc(DB::raw('COUNT(detalle_compras.producto_id)'))
                         ->orderBy('nombre');
                     break;
