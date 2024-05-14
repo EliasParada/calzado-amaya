@@ -34,7 +34,7 @@
             <div class="flex flex-col gap-2">
                 <h3 class="text-lg font-semibold mb-2">{{ $promocion->productos->nombre }}</h3>
                 <p class="text-gray-600">{{ $promocion->productos->categoria->nombre }}</p>
-                <p><span class="text-base line-through text-gray-400">${{ $promocion->productos->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ $promocion->productos->precio_venta - ($promocion->descuento * $promocion->productos->precio_venta) }}</b></p>
+                <p><span class="text-base line-through text-gray-400">${{ $promocion->productos->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ number_format($promocion->productos->precio_venta - ($promocion->descuento * $promocion->productos->precio_venta), 2) }}</b></p>
             </div>
             @if ($promocion->productos->existencia <= 0)
             <div class="border-2 border-red-500 text-red-500 font-bold text-3xl bg-white/25 p-4 absolute -rotate-45 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">

@@ -81,7 +81,7 @@
                     <div class="flex flex-col">
                         <h2 class="text-3xl font-bold">{{ $promocion->productos->nombre }}</h2>
                         @if ($promocion->descuento)
-                            <p><span class="text-base line-through text-gray-400">${{ $promocion->productos->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ $promocion->productos->precio_venta - ($promocion->descuento * $promocion->productos->precio_venta) }}</b></p>
+                            <p><span class="text-base line-through text-gray-400">${{ $promocion->productos->precio_venta }}</span> <b class="text-xl text-yellow-500 font-bold">${{ number_format($promocion->productos->precio_venta - ($promocion->descuento * $promocion->productos->precio_venta), 2) }}</b></p>
                         @else
                             <p class="text-gray-600">${{ $promocion->productos->precio_venta }}</p>
                         @endif

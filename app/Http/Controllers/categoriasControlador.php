@@ -42,7 +42,10 @@ class categoriasControlador extends Controller
                         ->orderBy('nombre');
                     break;
                 case 'precio':
-                    $query->orderBy('precio_venta');
+                    $query->select('productos.*', DB::raw('IFNULL(promociones.descuento, 1) * productos.precio_venta AS precio_descuento'))
+                        ->leftJoin('promociones', 'productos.producto_id', '=', 'promociones.producto_id')
+                        ->orderBy('precio_descuento')
+                        ->orderBy('productos.precio_venta');
                     break;
                 case 'existencias':
                     $query->orderBy('existencia');
