@@ -8,9 +8,9 @@
     <meta property="og:image" content="https://calzadoamaya.com/img/calzado-amaya-color.svg"/>
     <meta property="og:title" content="Calzado Amaya" />
     <meta property="og:description" content="Desarrollador full-stack apasionado por la tecnología." />
-    <meta property="og:url" content="https://efordev.com/" />
+    <meta property="og:url" content="https://calzadoamaya.com/" />
     <meta property="og:type" content="website" />
-    <meta name="keywords" content="Elias Mauricio Parada Lozano, Elías Mauricio Parada Lozano, Elias Parada, Elías Parada, Eryasu, Desarrollador full-stack" />
+    <meta name="keywords" content="Calzado, Calzado Amaya, Amaya" />
 
     <script src="https://kit.fontawesome.com/d36239a715.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
