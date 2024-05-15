@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('img/calzado-amaya-color.svg') }}" type="image/x-icon">
     @yield('title')
-    <meta property="og:image" content="https://calzadoamaya.com/img/calzado-amaya-color.svg"/>
+    <meta property="og:image" content="https://calzadoamaya.com/img/calzado-amaya.png"/>
     <meta property="og:title" content="Calzado Amaya" />
-    <meta property="og:description" content="Desarrollador full-stack apasionado por la tecnología." />
+    <meta property="og:description" content="Confort en cada paso." />
     <meta property="og:url" content="https://calzadoamaya.com/" />
     <meta property="og:type" content="website" />
     <meta name="keywords" content="Calzado, Calzado Amaya, Amaya" />
