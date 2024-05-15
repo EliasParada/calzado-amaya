@@ -31,18 +31,15 @@ $tallas = [
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del
-                        Producto</th>
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del Producto</th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio de
-                        Compra</th>
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio de Compra</th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio de
-                        Venta</th>
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio de Venta</th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Existencia</th>
                     <th scope="col" class="px-6 py-3"><span class="sr-only">Editar</span></th>
@@ -152,6 +149,10 @@ $tallas = [
                                 <label for="existencia_editar" class="block text-sm font-medium text-gray-700">Nueva existencia</label>
                                 <input type="number" name="existencia" id="existencia_editar" value="{{ $producto->existencia }}" step="1" min="0" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50">
                             </div>
+                            <div class="mb-4">
+                                <label for="kg" class="block text-sm font-medium text-gray-700">Nuevo peso en kilogramos</label>
+                                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="kg" name="kg" step="1" min="1">
+                            </div>
                             <button type="submit" class="px-4 py-2 text-black border-2 border-black hover:bg-black hover:text-white">Guardar cambios</button>
                         </form>
                     </x-modal>
@@ -246,6 +247,10 @@ $tallas = [
             <div class="mb-4">
                 <label for="existencia" class="block text-sm font-medium text-gray-700">Existencia</label>
                 <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="existencia" name="existencia" step="1" min="1" required>
+            </div>
+            <div class="mb-4">
+                <label for="kg" class="block text-sm font-medium text-gray-700">Peso en kilogramos</label>
+                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="kg" name="kg" step="1" min="1">
             </div>
             <button type="submit" class="px-4 py-2 text-black border-2 border-black hover:bg-black hover:text-white">Agregar Producto</button>
         </form>
