@@ -7,6 +7,7 @@
 @section('content')
     <section class="max-w-4xl mx-auto px-4 py-8">
         <h2 class="text-3xl font-semibold mb-4">Sobre Nosotros</h2>
+        <img src="{{ asset('img/calzado-amaya-color.svg') }}" alt="Calzado Amaya" class="mx-auto w-40 h-auto m-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <h3 class="text-xl font-semibold mb-2">Sobre Calzado Amaya</h3>
