@@ -45,7 +45,7 @@
                         </td>
                     </tr>
 
-                    <x-modal id="editarPromocionModal_{{ $promo->promocion_id }}" title="Editar Categoría" textclasses="">
+                    <x-modal id="editarPromocionModal_{{ $promo->promocion_id }}" title="Editar Promoción" textclasses="">
                         <form action="{{ route('promo.update', $promo->promocion_id) }}" method="POST">
                             @csrf
                             <div class="mb-4 w-full">
@@ -74,7 +74,7 @@
                         </form>
                     </x-modal>
 
-                    <x-modal id="eliminarPromocionModal_{{ $promo->promocion_id }}" title="Eliminar Categoría" textclasses="">
+                    <x-modal id="eliminarPromocionModal_{{ $promo->promocion_id }}" title="Eliminar Promoción" textclasses="">
                         <p class="mb-4">¿Estás seguro de eliminar la promoción de "{{ $promo->productos->nombre }}" a {{ $promo->descuento * 100 }}% de descuento?</p>
                         <form action="{{ route('promo.destroy', $promo->promocion_id) }}" method="POST">
                             @csrf
