@@ -151,7 +151,7 @@ $tallas = [
                             </div>
                             <div class="mb-4">
                                 <label for="peso_editar" class="block text-sm font-medium text-gray-700">Nuevo peso en libras</label>
-                                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="peso_editar" name="peso" step="0.01" min="0">
+                                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" value="{{ $producto->peso }}"  id="peso_editar" name="peso" step="0.01" min="0">
                             </div>
                             <button type="submit" class="px-4 py-2 text-black border-2 border-black hover:bg-black hover:text-white">Guardar cambios</button>
                         </form>
