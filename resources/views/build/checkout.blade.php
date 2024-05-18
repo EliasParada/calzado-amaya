@@ -103,7 +103,9 @@
                 <span>Canjear puntos por descuento (Maximo 15%)</span>
                 <input type="number" class="w-1/4 px-3 py-2 border-2 border-black focus:outline-none focus:ring focus:ring-main-yellow" min="700" step="10" max="{{ ($subtotal * 0.15) * 100 }}" @if ((Auth::check() ? Auth::user()->puntos->puntos ?? 0 : 0) < 700) disabled placeholder="No disponible" title="No disponible" @endif >     
             </div>
-            <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-1/3 mr-2/3" style="margin-left: 33rem; width: 11rem;">Canjear</button>
+            <div class="w-full flex justify-end">
+                <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-1/3 mr-2/3" style="margin-left: 33rem; width: 11rem;">Canjear</button>
+            </div>
 
             <ul class="p-4 list-disc">
                 <li>Canjeos disponibles a partir de los 700 puntos</li>

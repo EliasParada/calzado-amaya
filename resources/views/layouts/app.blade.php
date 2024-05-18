@@ -101,6 +101,7 @@
                     <span class="absolute -top-1 -right-3 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs"> {{ $totalProductos }} </span>
                 @endif
             </a>
+            <!-- A ver -->
             @if(Auth::check())
                 <div class="relative">
                     <button class="account-btn focus:outline-none text-xl">
