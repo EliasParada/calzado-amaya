@@ -5,20 +5,19 @@
 @endsection
 
 @section('content')
-<div class="p-8">
+<div class="p-4 md:p-8">
     <div class="w-full">
-        <h2 class="font-bold text-3xl mb-6">Historial de pedidos</h2>
+        <h2 class="font-bold text-2xl md:text-3xl mb-6">Historial de pedidos</h2>
     </div>
-
 
     <div class="space-y-8">
         @forelse($pedidos as $compra)
-        <div class="border border-gray-200 rounded-md p-6">
-            <div class="flex justify-between mb-4">
-                <h3 class="text-xl font-semibold">Pedido #{{ $compra->compra_id }}</h3>
+        <div class="border border-gray-200 rounded-md p-4 md:p-6">
+            <div class="flex flex-col md:flex-row justify-between mb-4">
+                <h3 class="text-lg md:text-xl font-semibold">Pedido #{{ $compra->compra_id }}</h3>
                 <span class="text-gray-500">{{ $compra->fecha_compra }}</span>
             </div>
-            <div class="grid grid-cols-3 gap-x-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-y-0 md:gap-x-8">
                 <div class="col-span-1">
                     <h4 class="text-lg font-semibold mb-2">Detalles de la compra</h4>
                     <ul class="list-disc list-inside mb-2">

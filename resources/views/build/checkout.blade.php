@@ -8,8 +8,8 @@
 <div class="container mx-auto p-8">
     <h2 class="text-3xl font-bold mb-4">Enformación de envio</h2>
 
-    <div class="container mx-auto flex">
-        <form action="{{ route('checkout.envio') }}" method="POST" class="w-1/2 pl-4 flex items-start justify-start flex-col">
+    <div class="container mx-auto flex flex-col md:flex-row">
+        <form action="{{ route('checkout.envio') }}" method="POST" class="w-full md:w-1/2 pl-4 flex items-start justify-start flex-col">
             @csrf
             <h2 class="text-xl font-bold mb-4">Resumen del pedido</h2>
             <div class="w-full flex flex-col gap-2">
@@ -50,7 +50,7 @@
                 <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-full">Continuar al método de envio</button>
             </div>
         </form>
-        <div class="w-1/2 p-4">
+        <div class="w-full md:w-1/2 p-4">
             @if(count($carrito) > 0)
                 <div class="overflow-x-auto w-full">
                     @foreach($carrito as $item)

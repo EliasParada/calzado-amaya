@@ -8,8 +8,8 @@
 <div class="container mx-auto p-8">
     <h2 class="text-3xl font-bold mb-4">Carrito de compras</h2>
 
-    <div class="container mx-auto flex">
-        <div class="w-1/2 pr-4">
+    <div class="container mx-auto flex flex-col md:flex-row">
+        <div class="w-full md:w-1/2 pr-4">
             @if(count($carrito) > 0)
                 <div class="overflow-x-auto w-full">
                     @foreach($carrito as $item)
@@ -57,7 +57,7 @@
             <p class="mt-4">El carrito está vacío.</p>
             @endif
         </div>
-        <div class="w-1/2 pl-4 flex items-start justify-start flex-col">
+        <div class="w-full md:w-1/2 pl-4 flex items-start justify-start flex-col">
             <h2 class="text-xl font-bold mb-4">Resumen del pedido</h2>
             <div class="w-full flex flex-col gap-2">
                 <div class="mb-2 w-full flex justify-between">

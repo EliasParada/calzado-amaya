@@ -58,22 +58,19 @@
     </style>
 </head>
 <body class="font-yaldevi box-border h-full">
-    <nav id="navbar"
-        class="flex justify-around items-center md:items-end w-full h-auto md:h-16 box-border py-2 sticky top-0 z-10 bg-main-yellow font-semibold">
+    <nav id="navbar" class="flex justify-around items-center md:items-end w-full h-auto md:h-16 box-border py-2 sticky top-0 z-10 bg-main-yellow font-semibold">
         <a href="{{ route('home') }}" class="flex flex-col justify-between h-full box-border items-center">
             <img src="{{ asset('img/calzado-amaya.png') }}" alt="Calzado Amaya" class="w-10 h-auto">
             <span>Calzado Amaya</span>
         </a>
 
-        <div
-            class="hidden md:flex md:flex justify-between box-border space-x-4">
+        <div class="hidden md:flex md:flex justify-between box-border space-x-4">
             @if(Auth::check() && Auth::user()->administrador)
                 <a href="{{ route('home') }}">Tablero</a>
                 <a href="{{ route('productos') }}">Productos</a>
                 <a href="{{ route('categorias') }}">Categorías</a>
                 <a href="{{ route('promo') }}">Promociones</a>
                 <a href="{{ route('pedidos') }}">Pedidos</a>
-                <!-- <a href="">Anuncios</a> -->
             @else
                 <a href="{{ route('home') }}">Inicio</a>
                 <a href="{{ route('categorias') }}">Catálogo</a>
@@ -84,26 +81,7 @@
         </div>
 
         <div class="hidden md:flex justify-between box-border space-x-4 items-end">
-            <form action="/categorias/" method="GET" class="flex items-end justify-between gap-2">
-                <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-gray-600 placeholder-gray-600 px-4 py-2 w-24 outline-none">
-                <button type="submit" class="text-xl">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <a href="/carrito/" class="text-xl relative">
-                <i class="fas fa-shopping-bag"></i>
-                @php
-                    $totalProductos = 0;
-                    if($carrito) {
-                        foreach ($carrito as $producto) {
-                            $totalProductos += $producto['cantidad'];
-                        }
-                    }
-                @endphp
-                @if($carrito && $totalProductos > 0)
-                    <span class="absolute -top-1 -right-3 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs"> {{ $totalProductos }} </span>
-                @endif
-            </a>
+            <!-- Existing search and cart -->
             @if(Auth::check())
                 <div class="relative">
                     <button class="account-btn focus:outline-none text-xl">
@@ -136,7 +114,87 @@
                 <a href="{{ route('login') }}">Iniciar Sesión</a>
             @endif
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-xl focus:outline-none" id="mobile-menu-button">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
+
+    <div id="mobile-menu" class="fixed inset-y-0 left-0 bg-white w-64 transform -translate-x-full transition-transform duration-300 ease-in-out z-20">
+        <div class="flex flex-col p-4">
+            <button id="close-mobile-menu" class="self-end text-xl focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="flex flex-col space-y-4 mt-4">
+                @if(Auth::check() && Auth::user()->administrador)
+                    <a href="{{ route('home') }}">Tablero</a>
+                    <a href="{{ route('productos') }}">Productos</a>
+                    <a href="{{ route('categorias') }}">Categorías</a>
+                    <a href="{{ route('promo') }}">Promociones</a>
+                    <a href="{{ route('pedidos') }}">Pedidos</a>
+                @else
+                    <a href="{{ route('home') }}">Inicio</a>
+                    <a href="{{ route('categorias') }}">Catálogo</a>
+                    <a href="{{ route('promo') }}">Promociones</a>
+                    <a href="{{ route('nosotros') }}">Sobre Nosotros</a>
+                    <a href="{{ route('contacto') }}">Contacto</a>
+                @endif
+                <form action="/categorias/" method="GET" class="flex items-center justify-between gap-2">
+                    <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-gray-600 placeholder-gray-600 px-4 py-2 w-full outline-none">
+                    <button type="submit" class="text-xl">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <a href="/carrito/" class="text-xl relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    @php
+                        $totalProductos = 0;
+                        if($carrito) {
+                            foreach ($carrito as $producto) {
+                                $totalProductos += $producto['cantidad'];
+                            }
+                        }
+                    @endphp
+                    @if($carrito && $totalProductos > 0)
+                        <span class="absolute -top-1 -right-3 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs"> {{ $totalProductos }} </span>
+                    @endif
+                </a>
+                @if(Auth::check())
+                    <div class="relative">
+                        <button class="focus:outline-none text-xl">
+                            <i class="fas fa-user"></i> Cuenta
+                        </button>
+                        <ul class="right-0 pt-2 pl-2 border-box w-full">
+                            <li>
+                                <a href="" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                    {{ Auth::user()->nombre }}
+                                </a>
+                            </li>
+                            @if (!Auth::user()->administrador)
+                            <li>
+                                <a href="{{ route('historial.pedidos', Auth::user()->nombre) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                    Historial de pedidos
+                                </a>
+                            </li>
+                            @endif
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="block">
+                                    @csrf
+                                    <button type="submit" class="w-full h-full px-4 py-2 text-red-600 text-start hover:text-red-800 hover:bg-gray-200 focus:outline-none">
+                                        Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}">Iniciar Sesión</a>
+                @endif
+            </div>
+        </div>
+    </div>
+
     
     <main id="content" class="w-full">
         @yield('content')
@@ -189,6 +247,22 @@
     </footer>
 
     @yield('script')
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const mobileMenuButton = document.getElementById("mobile-menu-button");
+            const closeMobileMenuButton = document.getElementById("close-mobile-menu");
+            const mobileMenu = document.getElementById("mobile-menu");
+
+            mobileMenuButton.addEventListener("click", function() {
+                mobileMenu.classList.toggle("-translate-x-full");
+            });
+
+            closeMobileMenuButton.addEventListener("click", function() {
+                mobileMenu.classList.toggle("-translate-x-full");
+            });
+        });
+    </script>
 
     @if(Auth::check())
         <script>
