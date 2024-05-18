@@ -6,9 +6,9 @@
 
 @section('content')
 <div class="p-4 md:p-8">
-    <div class="w-full flex justify-between">
+    <div class="w-full flex justify-between items-center">
         <h2 class="font-bold text-2xl md:text-3xl mb-6">Historial de pedidos</h2>
-        <span class="p-2 bg-gray-200 rounded-lg">{{ Auth::check() ? Auth::user()->puntos->puntos ?? 0 : 0 }}</span>
+        <span class="p-2 bg-gray-200 rounded-lg h-fit">{{ Auth::check() ? Auth::user()->puntos->puntos ?? 0 : 0 }}</span>
     </div>
 
     <div class="space-y-8">
