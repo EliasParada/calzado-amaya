@@ -150,8 +150,8 @@ $tallas = [
                                 <input type="number" name="existencia" id="existencia_editar" value="{{ $producto->existencia }}" step="1" min="0" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50">
                             </div>
                             <div class="mb-4">
-                                <label for="kg" class="block text-sm font-medium text-gray-700">Nuevo peso en kilogramos</label>
-                                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="kg" name="kg" step="1" min="1">
+                                <label for="peso_editar" class="block text-sm font-medium text-gray-700">Nuevo peso en libras</label>
+                                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="peso_editar" name="peso" step="0.01" min="0">
                             </div>
                             <button type="submit" class="px-4 py-2 text-black border-2 border-black hover:bg-black hover:text-white">Guardar cambios</button>
                         </form>
@@ -249,8 +249,8 @@ $tallas = [
                 <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="existencia" name="existencia" step="1" min="1" required>
             </div>
             <div class="mb-4">
-                <label for="kg" class="block text-sm font-medium text-gray-700">Peso en kilogramos</label>
-                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="kg" name="kg" step="1" min="1">
+                <label for="peso" class="block text-sm font-medium text-gray-700">Peso en libras</label>
+                <input type="number" class="block w-full mt-1 p-4 outline-none focus:ring focus:ring-main-yellow focus:ring-opacity-50" id="peso" name="peso" step="0.01" min="0">
             </div>
             <button type="submit" class="px-4 py-2 text-black border-2 border-black hover:bg-black hover:text-white">Agregar Producto</button>
         </form>

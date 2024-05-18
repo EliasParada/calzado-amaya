@@ -49,6 +49,7 @@ class productosControlador extends Controller
         $producto->codigo = $request->codigo;
         $producto->categoria_id = $request->categoria_id;
         $producto->nombre = $request->nombre;
+        $producto->peso = $request->peso;
         $producto->descripcion = $request->descripcion;
         $producto->colores = $coloresJson;
         $producto->tallas = $tallasJson;
@@ -95,6 +96,7 @@ class productosControlador extends Controller
         $producto->codigo = $request->codigo;
         $producto->categoria_id = $request->categoria_id;
         $producto->nombre = $request->nombre;
+        $producto->peso = $request->peso;
         $producto->descripcion = $request->descripcion;
         $producto->colores = $coloresJson;
         $producto->tallas = $tallasJson;

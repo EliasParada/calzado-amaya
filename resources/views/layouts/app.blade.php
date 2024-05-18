@@ -8,6 +8,9 @@
     <meta property="og:image" content="https://calzadoamaya.com/img/calzado-amaya.png"/>
     <meta property="og:title" content="Calzado Amaya" />
     <meta property="og:description" content="Confort en cada paso." />
+    <meta
+        name="description"
+        content="Calzado Amaya, Confort en cada paso.">
     <meta property="og:url" content="https://calzadoamaya.com/" />
     <meta property="og:type" content="website" />
     <meta name="keywords" content="Calzado, Calzado Amaya, Amaya" />
@@ -39,13 +42,26 @@
             }
         }
     </script>
+    <style>
+        .fixed {
+            transition: all 1s;
+        }
+        .alert {
+            transform: translateX(-100%);
+        }
+        .slide-in {
+            transform: translateX(30%) !important;
+        }
+        .slide-out {
+            transform: translateX(-100%) !important;
+        }
+    </style>
 </head>
 <body class="font-yaldevi box-border h-full">
     <nav id="navbar"
         class="flex justify-around items-center md:items-end w-full h-auto md:h-16 box-border py-2 sticky top-0 z-10 bg-main-yellow font-semibold">
-        <a href="{{ route('home') }}"
-            class="flex flex-col justify-between h-full box-border items-center">
-            <img src="{{ asset('img/calzado-amaya-color.svg') }}" alt="Calzado Amaya" class="w-10 h-auto">
+        <a href="{{ route('home') }}" class="flex flex-col justify-between h-full box-border items-center">
+            <img src="{{ asset('img/calzado-amaya.png') }}" alt="Calzado Amaya" class="w-10 h-auto">
             <span>Calzado Amaya</span>
         </a>
 
@@ -67,8 +83,7 @@
             @endif
         </div>
 
-        <div
-            class="hidden md:flex justify-between box-border space-x-4 items-end">
+        <div class="hidden md:flex justify-between box-border space-x-4 items-end">
             <form action="/categorias/" method="GET" class="flex items-end justify-between gap-2">
                 <input type="text" name="search" placeholder="Buscar" class="bg-main-yellow border-0 border-b-2 border-gray-600 placeholder-gray-600 px-4 py-2 w-24 outline-none">
                 <button type="submit" class="text-xl">
@@ -110,7 +125,7 @@
                         <li>
                             <form action="{{ route('logout') }}" method="POST" class="block">
                                 @csrf
-                                <button type="submit" class="w-full h-full px-4 py-2 text-red-600 hover:text-red-800 hover:bg-gray-200 focus:outline-none">
+                                <button type="submit" class="w-full h-full px-4 py-2 text-red-600 text-start hover:text-red-800 hover:bg-gray-200 focus:outline-none">
                                     Cerrar Sesión
                                 </button>
                             </form>
@@ -126,6 +141,9 @@
     <main id="content" class="w-full">
         @yield('content')
     </main>
+    
+    @include('layouts.alertas')
+    
     <footer class="bg-gray-200">
         <div class="max-w-6xl mx-auto flex flex-wrap justify-between py-24 px-4">
             <div class="w-full md:w-1/2 mb-4 md:mb-0 md:px-4">
@@ -171,6 +189,7 @@
     </footer>
 
     @yield('script')
+
     @if(Auth::check())
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -190,6 +209,45 @@
                 accountMenu.addEventListener("click", function(event) {
                     event.stopPropagation();
                 });
+            });
+        </script>
+    @else
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const alerts = [
+                    { id: 'login-alert', shownKey: 'loginAlertShown' },
+                    { id: 'points-alert', shownKey: 'pointsAlertShown' },
+                    { id: 'launch-day1-alert', shownKey: 'launchDay1AlertShown' },
+                    { id: 'launch-day2-alert', shownKey: 'launchDay2AlertShown' }
+                ];
+
+                function showAlert(index) {
+                    if (index >= alerts.length) return;
+
+                    const alert = alerts[index];
+                    const alertElement = document.getElementById(alert.id);
+
+                    if (localStorage.getItem(alert.shownKey)) {
+                        showAlert(index + 1);
+                        return;
+                    }
+
+                    alertElement.classList.add('slide-in');
+                }
+
+                window.closeAlert = function(alertId) {
+                    const alert = alerts.find(alert => alert.id === alertId);
+                    const alertElement = document.getElementById(alertId);
+
+                    alertElement.classList.add('slide-out');
+                    setTimeout(() => {
+                        localStorage.setItem(alert.shownKey, 'true');
+                        const nextAlertIndex = alerts.findIndex(a => a.id === alertId) + 1;
+                        showAlert(nextAlertIndex);
+                    }, 1000);
+                };
+
+                showAlert(0);
             });
         </script>
     @endif

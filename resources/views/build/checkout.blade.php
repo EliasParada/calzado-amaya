@@ -78,7 +78,7 @@
                     @endforeach
                 </div>
             @else
-            <p class="mt-4">El carrito está vacío.</p>
+                <p class="mt-4">El carrito está vacío.</p>
             @endif
             <div class="w-full flex flex-col gap-2">
                 <div class="mb-2 w-full flex justify-between">
@@ -94,6 +94,23 @@
                     <p id="total">{{ $subtotal }}</p>
                 </div>
             </div>
+
+            <div class="flex justify-end items-center p-4 gap-2">
+                <span>Puntos disponibles</span>
+                <span class="p-2 bg-gray-200 rounded-lg">{{ Auth::check() ? Auth::user()->puntos->puntos ?? 0 : 0 }}</span>
+            </div>
+            <div class="flex gap-4 justify-between items-center">
+                <span>Canjear puntos por descuento (Maximo 15%)</span>
+                <input type="number" class="w-1/4 px-3 py-2 border-2 border-black focus:outline-none focus:ring focus:ring-main-yellow" min="700" step="10" max="{{ ($subtotal * 0.15) * 100 }}" @if ((Auth::check() ? Auth::user()->puntos->puntos ?? 0 : 0) < 700) disabled placeholder="No disponible" title="No disponible" @endif >     
+            </div>
+            <button type="submit" class="bg-white text-black px-4 py-2 border-2 border-black hover:bg-black hover:text-white mt-4 w-1/3 mr-2/3" style="margin-left: 33rem; width: 11rem;">Canjear</button>
+
+            <ul class="p-4 list-disc">
+                <li>Canjeos disponibles a partir de los 700 puntos</li>
+                <li>EL limite de canjeo es el 15%</li>
+                <li>Por tus compras a partir de $20 hasta $25 acumula el 1% de tu compra en puntos</li>
+                <li>Por tus compras a partir de $26 acumula el 2% de tu compra en puntos</li>
+            </ul>
         </div>
     </div>
 </div>

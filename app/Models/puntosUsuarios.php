@@ -10,6 +10,7 @@ class puntosUsuarios extends Model
     use HasFactory;
 
     protected $table = 'puntos_usuarios';
+    protected $primaryKey = 'usuario_id';
     public $incrementing = false;
     public $timestamps = false;
 

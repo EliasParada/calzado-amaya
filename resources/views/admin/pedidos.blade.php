@@ -25,8 +25,8 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-lg font-semibold text-gray-900">{{ $pedido->compra_id }}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-lg font-semibold text-gray-900">
+                            <td class="px-6 py-4 text-wrap">
+                                <div class="text-lg text-gray-900">
 
                                     <p><span class="font-semibold truncate" title="{{ $pedido->factura_nombre }}">Factura:</span> {{ $pedido->factura_nombre }}</p>
                                     <ul class="list-disc list-inside mb-2">
@@ -38,13 +38,13 @@
                                         @endforeach
                                     </ul>
                                     <p class="font-semibold">Detalles:</p>
-                                    <blockquote class="border-l-4 border-gray-500 pl-4 py-2">
-                                        <p>{{ $pedido->detalles }}</p>
+                                    <blockquote class="border-l-4 border-gray-500 pl-4 py-2 bg-gray-100 rounded-r-lg">
+                                        <p>"{{ $pedido->detalles }}"</p>
                                     </blockquote>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-lg font-semibold text-gray-900">
+                            <td class="px-6 py-4 text-wrap">
+                                <div class="text-lg text-gray-900">
                                     <p><span class="font-semibold">Nombre:</span> {{ $pedido->nombres }} {{ $pedido->apellidos }}</p>
                                     <p><span class="font-semibold">Ubicación:</span> {{ $pedido->ubicacion_envio }}</p>
                                     <p><span class="font-semibold">Correo:</span> {{ $pedido->correo }}</p>
@@ -52,7 +52,7 @@
                                     <p><span class="font-semibold">Precio Total:</span> ${{ $pedido->precio_total }}</p>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4 text-wrap">
                                 <p><span class="font-semibold">Estado:</span> {{ $pedido->estado }}</p>
                                 <p><span class="font-semibold">Fecha de pago:</span> {{ $pedido->fecha_compra }}</p>
                                 <p><span class="font-semibold">Fecha de retiro:</span> {{ $pedido->fecha_retiro }}</p>

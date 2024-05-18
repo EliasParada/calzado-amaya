@@ -25,34 +25,6 @@
             </div>
         </div>
     </section>
-
-    <div class="fixed bottom-10 left-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-1/4 absolute left-10 bottom-10">
-        <!-- Contenido del modal -->
-        <div class="text-white">
-            <h2 class="text-2xl mb-4">Inicia sesión</h2>
-            <!-- Formulario de inicio de sesión (puedes personalizar según tus necesidades) -->
-            <form action="{{ route('login') }}" method="POST" class="mb-4">
-                @csrf
-                <div class="mb-4">
-                    <label for="email" class="block mb-1">Email:</label>
-                    <input type="email" name="email" id="email" class="w-full rounded-md border-2 border-white p-2 focus:outline-none" required>
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="block mb-1">Contraseña:</label>
-                    <input type="password" name="password" id="password" class="w-full rounded-md border-2 border-white p-2 focus:outline-none" required>
-                </div>
-                <button type="submit" class="bg-white text-main-orange py-2 px-4 rounded-md hover:bg-gray-100 hover:text-orange-700">Iniciar sesión</button>
-            </form>
-            <!-- Texto adicional -->
-            <p class="text-sm">¿No tienes una cuenta? <a href="{{ route('register') }}" class="font-bold">Crea una</a> para ganar puntos.</p>
-        </div>
-        <!-- Botón para cerrar el modal -->
-        <button class="absolute top-0 right-0 mt-2 mr-2 text-white" onclick="closeModal()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-    </div>
 @endsection
 
 <!-- <div class="flex justify-end items-center p-4 gap-2">

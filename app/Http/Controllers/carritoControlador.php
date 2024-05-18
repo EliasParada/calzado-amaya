@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\productos;
 use App\Models\compras;
 use App\Models\detalleCompras;
+use App\Models\usuarios;
+use App\Models\puntosUsuarios;
 use Illuminate\Http\Request;
 use App\Lib\Services\Pagadito;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 require_once(__DIR__. '../../../services/config.php');
 require_once(__DIR__. '../../../services/lib/Pagadito.php');
@@ -57,10 +60,12 @@ class carritoControlador extends Pagadito
 
         $precio = $producto->precio_venta;;
         $nombre = $producto->nombre;
+        $desuento = false;
 
         if ($producto->descuento) {
             $nombre = $producto->nombre . " -" . ($producto->descuento->descuento * 100) . "%";
             $precio = $producto->precio_venta - ($producto->descuento->descuento * $producto->precio_venta);
+            $desuento = true;
         }
 
         if ($cantidad < 1) {
@@ -92,6 +97,7 @@ class carritoControlador extends Pagadito
             'cantidad' => $cantidad,
             'color' => $request->color,
             'talla' => $request->talla,
+            'descuento' => $desuento,
         ];
 
         $carrito[] = $producto;
@@ -146,19 +152,52 @@ class carritoControlador extends Pagadito
         return view('build.checkout', ['carrito' => $carrito, 'subtotal' => $subtotal]);
     }
 
+    private function usuarioHaCompradoHoy($usuarioId)
+    {
+        $hoy = Carbon::today();
+        return compras::whereDate('fecha_compra', $hoy)
+                    ->where('usuario_id', $usuarioId)
+                    ->exists();
+    }
+
+    private function contarComprasDelDia()
+    {
+        $hoy = Carbon::today();
+        return compras::whereDate('fecha_compra', $hoy)
+                    ->whereNotNull('usuario_id')
+                    ->count('usuario_id');
+    }
+
     public function enviar(Request $request) {
         $carrito = session()->get('carrito', []);
+
+        $libras = 0;
         
         foreach ($carrito as $key => $item) {
             $producto = productos::findOrFail($item['producto_id']);
             $carrito[$key]['cantidad_disponible'] = $producto->existencia;
+            $libras += $producto->peso * $carrito[$key]['cantidad'];
         }
 
         $subtotal = array_sum(array_map(function($item) {
             return $item['precio_unidad'] * $item['cantidad'];
         }, $carrito));
 
-        return view('build.envio', ['carrito' => $carrito, 'subtotal' => $subtotal, 'contacto' => $request->all()]);
+        $usuarioId = Auth::check() ? Auth::user()->usuario_id : null;
+        $comprasDelDia = $this->contarComprasDelDia();
+    
+        if ($usuarioId && !$this->usuarioHaCompradoHoy($usuarioId)) {
+            // Aplicar descuento del primer día: envío gratis
+            if ($comprasDelDia < 50 && $subtotal > 20) {
+                $libras = 0.00;
+            } else {
+                $libras *= 3.5;
+            }
+        } else {
+            // Precio de envío normal
+            $libras *= 3.5;
+        }
+        return view('build.envio', ['carrito' => $carrito, 'subtotal' => $subtotal, 'contacto' => $request->all(), 'envio' => $libras]);
     }
 
     public function cobrar(Request $request)
@@ -171,7 +210,8 @@ class carritoControlador extends Pagadito
             $precioTotal += $item['precio_unidad'] * $item['cantidad'];
         }
 
-        $precioNeto = $precioTotal - $request->envio;
+        $precioNeto = $precioTotal;
+        $precioTotal += $request->envio;
         $comisionPagadito = $precioNeto * 0.05 + 0.25;
 
         $fechaHora = date('YmdHis');
@@ -189,16 +229,31 @@ class carritoControlador extends Pagadito
             'apellidos' => $request->apellido,
             'descuento' => $descuentoTotal,
             'precio_total' => $precioTotal,
+            'precio_evio' => $request->envio,
             'precio_neto' => $precioNeto,
             'comision_pagadito' => $comisionPagadito,
             'estado' => 'PENDIENTE',
             'detalles' => $request->detalle,
         ]);
 
-        if ($precioNeto >= 20 && $precioNeto <= 25) {
-
-        } else if ($precioNeto > 25) {
-            
+        if (Auth::check()) {
+            $usuario = Auth::user();
+            $puntos = 0;
+    
+            if ($precioNeto >= 20 && $precioNeto <= 25) {
+                $puntos = $precioNeto * 0.01;
+            } else if ($precioNeto > 25) {
+                $puntos = $precioNeto * 0.02;
+            }
+    
+            // Actualizar o crear los puntos del usuario
+            $puntosUsuario = puntosUsuarios::where('usuario_id', $usuario->usuario_id)->first();
+            if ($puntosUsuario) {
+                $puntosUsuario->puntos += $puntos;
+                $puntosUsuario->save();
+            } else {
+                puntosUsuarios::create(['usuario_id' => $usuario->usuario_id, 'puntos' => $puntos]);
+            }
         }
 
         if($this->pagadito->connect()) {
@@ -216,7 +271,7 @@ class carritoControlador extends Pagadito
                 }
                 $this->pagadito->add_detail($item['cantidad'], $item['nombre'], $item['precio_unidad']);
             }
-            $this->pagadito->add_detail(1, 'Envio Cargo Expreso', 9.50);
+            $this->pagadito->add_detail(1, 'Envio Cargo Expreso', $request->envio);
 
 
             if (!$this->pagadito->exec_trans($ern)) {
@@ -232,6 +287,7 @@ class carritoControlador extends Pagadito
         if($this->pagadito->connect()) {
             if ($this->pagadito->get_status($token)) {
                 $estado = $this->pagadito->get_rs_status();
+                session()->forget('carrito');
                 if ($estado == "COMPLETED") {
                     $compra = compras::where('factura_nombre', $ern)->first();
                     if ($compra) {
