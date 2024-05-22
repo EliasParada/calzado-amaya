@@ -29,6 +29,8 @@
                                 <div class="text-lg text-gray-900">
 
                                     <p><span class="font-semibold truncate" title="{{ $pedido->factura_nombre }}">Factura:</span> {{ $pedido->factura_nombre }}</p>
+                                    <p><span class="font-semibold truncate" title="{{ $pedido->metodo }}">Método:</span> {{ $pedido->metodo }}</p>
+                                    
                                     <ul class="list-disc list-inside mb-2">
                                         @foreach($pedido->detalle as $detalle)
                                         <li>
@@ -63,8 +65,9 @@
                             </td>
                         </tr>
 
-                        <x-modal id="editarPedidoModal_{{ $pedido->compra_id }}" title="Editar Pedido - Gactura: {{ $pedido->factura_nombre }}" textclasses="">
+                        <x-modal id="editarPedidoModal_{{ $pedido->compra_id }}" title="Editar Pedido - Factura: {{ $pedido->factura_nombre }}" textclasses="">
                             <div class="mb-4">
+                                <p><span class="font-semibold">Método:</span> {{ $pedido->metodo }}</p>
                                 <p><span class="font-semibold">Fecha de Compra:</span> {{ $pedido->fecha_compra }}</p>
                                 <p><span class="font-semibold">Estado Actual:</span> {{ $pedido->estado }}</p>
                                 <p><span class="font-semibold">Cliente:</span> {{ $pedido->nombres }} {{ $pedido->apellidos }}</p>

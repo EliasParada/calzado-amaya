@@ -200,6 +200,38 @@ class carritoControlador extends Pagadito
         return view('build.envio', ['carrito' => $carrito, 'subtotal' => $subtotal, 'contacto' => $request->all(), 'envio' => $libras]);
     }
 
+    public function pago(Request $request) {
+        $carrito = session()->get('carrito', []);
+
+        $libras = 0;
+        
+        foreach ($carrito as $key => $item) {
+            $producto = productos::findOrFail($item['producto_id']);
+            $carrito[$key]['cantidad_disponible'] = $producto->existencia;
+            $libras += $producto->peso * $carrito[$key]['cantidad'];
+        }
+
+        $subtotal = array_sum(array_map(function($item) {
+            return $item['precio_unidad'] * $item['cantidad'];
+        }, $carrito));
+
+        $usuarioId = Auth::check() ? Auth::user()->usuario_id : null;
+        $comprasDelDia = $this->contarComprasDelDia();
+    
+        if ($usuarioId && !$this->usuarioHaCompradoHoy($usuarioId)) {
+            // Aplicar descuento del primer día: envío gratis
+            if ($comprasDelDia < 50 && $subtotal > 20) {
+                $libras = 0.00;
+            } else {
+                $libras *= 3.5;
+            }
+        } else {
+            // Precio de envío normal
+            $libras *= 3.5;
+        }
+        return view('build.metodo', ['carrito' => $carrito, 'subtotal' => $subtotal, 'contacto' => $request->all(), 'envio' => $libras]);
+    }
+
     public function cobrar(Request $request)
     {
         $carrito = session()->get('carrito', []);
@@ -233,6 +265,7 @@ class carritoControlador extends Pagadito
             'precio_neto' => $precioNeto,
             'comision_pagadito' => $comisionPagadito,
             'estado' => 'PENDIENTE',
+            'metodo' => $request->metodo,
             'detalles' => $request->detalle,
         ]);
 
@@ -256,7 +289,32 @@ class carritoControlador extends Pagadito
             }
         }
 
-        if($this->pagadito->connect()) {
+        if ($request->metodo == "PAGADITO") {
+            if($this->pagadito->connect()) {
+                foreach ($carrito as $item) {
+                    if (
+                        detalleCompras::create([
+                            'compra_id' => $compra->compra_id,
+                            'producto_id' => $item['producto_id'],
+                            'cantidad' => $item['cantidad'],
+                        ])
+                    ) {
+                        $producto = productos::find($item['producto_id']);
+                        $producto->existencia = $producto->existencia -  $item['cantidad'];
+                        $producto->save();
+                    }
+                    $this->pagadito->add_detail($item['cantidad'], $item['nombre'], $item['precio_unidad']);
+                }
+                $this->pagadito->add_detail(1, 'Envio Cargo Expreso', $request->envio);
+    
+    
+                if (!$this->pagadito->exec_trans($ern)) {
+                    return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
+                }
+            } else {
+                return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
+            }
+        } else {
             foreach ($carrito as $item) {
                 if (
                     detalleCompras::create([
@@ -269,16 +327,11 @@ class carritoControlador extends Pagadito
                     $producto->existencia = $producto->existencia -  $item['cantidad'];
                     $producto->save();
                 }
-                $this->pagadito->add_detail($item['cantidad'], $item['nombre'], $item['precio_unidad']);
             }
-            $this->pagadito->add_detail(1, 'Envio Cargo Expreso', $request->envio);
 
-
-            if (!$this->pagadito->exec_trans($ern)) {
-                return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
-            }
-        } else {
-            return "ERROR:" . $this->pagadito->get_rs_code() . ": " . $this->pagadito->get_rs_message();
+            $fecha_cobro = $compra->fecha_compra;
+            $subtotal = $compra->precio_neto;
+            return view('build.pago', compact('fecha_cobro', 'subtotal', 'compra'));
         }
     }
 

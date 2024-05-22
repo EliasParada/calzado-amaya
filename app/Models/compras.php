@@ -30,6 +30,7 @@ class compras extends Model
         'precio_neto', // Envio y total
         'comision_pagadito', // Comision por transacción en pagadito
         'estado',
+        'metodo',
         'detalles',
     ];
 

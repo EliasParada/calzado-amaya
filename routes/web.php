@@ -34,6 +34,7 @@ Route::post('verificar/envio/metodo', [App\Http\Controllers\carritoControlador::
 Route::post('/carrito/incrementar/{productoId}', [App\Http\Controllers\carritoControlador::class, 'incrementar'])->name('carrito.incrementar');
 Route::post('/carrito/decrementar/{productoId}', [App\Http\Controllers\carritoControlador::class, 'decrementar'])->name('carrito.decrementar');
 
+Route::post('pago', [App\Http\Controllers\carritoControlador::class, 'pago'])->name('pago');
 Route::post('cobrar', [App\Http\Controllers\carritoControlador::class, 'cobrar'])->name('cobrar');
 Route::get('pagos/estado/token/{token}/comprobante/{ern}', [App\Http\Controllers\carritoControlador::class, 'verificar'])->name('pagos.verificar');
 
