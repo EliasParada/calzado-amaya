@@ -60,7 +60,9 @@
 
 <div class="min-h-screen flex items-center justify-center">
     <div class="max-w-md w-full p-6 bg-white rounded-lg shadow-md flex flex-col items-center">
-        <img src="{{ asset('img/calzado-amaya-color.svg') }}" alt="Calzado Amaya" class="w-32 h-auto">
+        <a href="{{ route('home') }}" class="w-32">
+            <img src="{{ asset('img/calzado-amaya-color.svg') }}" alt="Calzado Amaya" class="w-32 h-auto">
+        </a>
         <h1 class="text-2xl font-bold mb-4 text-center">{{ config('app.name') }}</h1>
 
         <form action="{{ route('login.new') }}" method="post" class="w-full">

@@ -5,12 +5,12 @@
             <form action="{{ route('login') }}" method="POST" class="mb-4">
                 @csrf
                 <div class="mb-4">
-                    <label for="email" class="block mb-1">Email:</label>
-                    <input type="email" name="email" id="email" class="w-full rounded-md border-2 border-white p-2 focus:outline-none" required>
+                    <label for="correo" class="block mb-1">Correo:</label>
+                    <input type="email" name="correo" id="correo" class="text-black w-full rounded-md border-2 border-white p-2 focus:outline-none" required>
                 </div>
                 <div class="mb-4">
                     <label for="password" class="block mb-1">Contraseña:</label>
-                    <input type="password" name="password" id="password" class="w-full rounded-md border-2 border-white p-2 focus:outline-none" required>
+                    <input type="password" name="password" id="password" class="text-black w-full rounded-md border-2 border-white p-2 focus:outline-none" required>
                 </div>
                 <button type="submit" class="bg-white text-main-orange py-2 px-4 rounded-md hover:bg-gray-100 hover:text-orange-700">Iniciar sesión</button>
             </form>
