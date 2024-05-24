@@ -1,5 +1,5 @@
 @if (!Auth::check())
-    <div id="login-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 sm:right-1/3 z-50">
+    <div id="login-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 md:right-auto right-1/3 z-50">
         <div class="text-white">
             <h2 class="text-2xl mb-4">Inicia sesión</h2>
             <form action="{{ route('login') }}" method="POST" class="mb-4">
@@ -23,7 +23,7 @@
         </button>
     </div>
 
-    <div id="points-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 sm:right-1/3 z-50">
+    <div id="points-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 md:right-auto right-1/3 z-50">
         <div class="text-white">
             <h2 class="text-2xl mb-4 font-bold">¡Canjea puntos por descuentos!</h2>
             <p class="text-lg mb-4">Gana puntos con cada compra y utilízalos para obtener descuentos en tus futuras compras. ¡Es fácil y rápido!</p>
@@ -44,7 +44,7 @@
         </button>
     </div>
 
-    <div id="launch-day1-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 sm:right-1/3 z-50">
+    <div id="launch-day1-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 md:right-auto right-1/3 z-50">
         <div class="text-white">
             <h2 class="text-2xl mb-4 font-bold">¡Gran lanzamiento de Calzado Amaya!</h2>
             <p class="text-lg mb-4">Estamos emocionados de anunciar el lanzamiento de nuestra tienda virtual.</p>
@@ -60,7 +60,7 @@
         </button>
     </div>
 
-    <div id="launch-day2-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 sm:right-1/3 z-50">
+    <div id="launch-day2-alert" class="alert fixed bottom-10 bg-gradient-to-tr from-main-orange to-main-yellow rounded-lg p-8 w-3/4 md:w-1/4 md:right-auto right-1/3 z-50">
         <div class="text-white">
             <h2 class="text-2xl mb-4 font-bold">¡Segundo día de lanzamiento!</h2>
             <p class="text-lg mb-4">Continuamos celebrando con descuentos en envíos para nuestros primeros clientes.</p>
